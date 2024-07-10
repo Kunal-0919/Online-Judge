@@ -13,4 +13,4 @@ const DBConnection = async () => {
   }
 };
 
-module.exports = { DBConnection };
+module.exports = { DBConnection }; // DBConnection should be in curly braces => Dynamic Export/Import
