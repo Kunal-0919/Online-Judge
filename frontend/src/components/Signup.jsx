@@ -43,7 +43,7 @@ function Signup() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center font-serif justify-center min-h-screen bg-gray-100 ">
       <div className="relative z-10 w-full max-w-md mx-4 md:mx-auto p-8 bg-gray-100 shadow-lg rounded-lg text-center">
         {/* Center align the logo */}
         <div className="flex justify-center mb-1">
@@ -95,7 +95,7 @@ function Signup() {
 
         <button
           onClick={handleSignup}
-          className="w-full bg-black text-white p-2 rounded transition duration-500 ease-in-out hover:bg-amber-500 hover:text-black"
+          className="w-full border-2 bg-black border-black font-extrabold text-white p-2 rounded-lg transition duration-1000 ease-in-out hover:rounded-full"
         >
           Create Account
         </button>
