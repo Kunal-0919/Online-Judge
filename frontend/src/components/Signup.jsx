@@ -1,9 +1,8 @@
-// Signup.js
 import { useState } from "react";
 import LogoComponent from "./LogoComponent";
+import Img from "../public/backgroundImg.jpg";
 
 function Signup() {
-  const tag = " </>";
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -13,18 +12,21 @@ function Signup() {
 
   const handleSignup = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/register`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          firstname: firstName,
-          lastname: lastName,
-          email: email,
-          password: password,
-        }),
-      });
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_BASE_URL}/register`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            firstname: firstName,
+            lastname: lastName,
+            email: email,
+            password: password,
+          }),
+        }
+      );
 
       const data = await response.json();
       if (response.ok) {
@@ -43,14 +45,15 @@ function Signup() {
   };
 
   return (
-    <div className="flex items-center font-serif justify-center min-h-screen bg-gray-100 ">
-      <div className="relative z-10 w-full max-w-md mx-4 md:mx-auto p-8 bg-gray-100 shadow-lg rounded-lg text-center">
-        {/* Center align the logo */}
+    <div
+      className="flex items-center justify-center min-h-screen bg-cover bg-center"
+      style={{ backgroundImage: `url("/backgroundImg.jpg")` }}
+    >
+      <div className="relative z-10 w-full max-w-md mx-4 md:mx-auto p-8 bg-white shadow-lg rounded-lg text-center">
         <div className="flex justify-center mb-1">
           <LogoComponent height="100px" width="100px" rounded={true} />
         </div>
-
-        <h1 className="text-5xl text-black font-bold mb-4">Algo Chef {tag}</h1>
+        <h1 className="text-5xl text-black font-bold mb-4">Algo Chef</h1>
         <h2 className="text-4xl text-black font-bold mb-4">Create Account</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         {successMessage && (
@@ -95,7 +98,7 @@ function Signup() {
 
         <button
           onClick={handleSignup}
-          className="w-full border-2 bg-black border-black font-extrabold text-white p-2 rounded-lg transition duration-1000 ease-in-out hover:rounded-full"
+          className="w-full bg-black text-white p-2 rounded-lg transition duration-1000 ease-in-out hover:bg-white hover:text-black border-2 border-black font-extrabold hover:rounded-full"
         >
           Create Account
         </button>

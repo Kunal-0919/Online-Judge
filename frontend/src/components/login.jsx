@@ -40,8 +40,8 @@ function Login() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100 font-serif">
-      <div className="relative z-10 w-full max-w-md mx-4 md:mx-auto p-8 bg-gray-100 shadow-lg rounded-lg">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="relative z-10 w-full max-w-md mx-4 md:mx-auto p-8 bg-gray-100 shadow-lg rounded-lg font-sans">
         <div className="flex justify-center mb-1">
           <LogoComponent height="80px" width="80px" rounded={true} />
         </div>
