@@ -1,6 +1,6 @@
 ## High-Level Design (HLD) Document
 
-# AlgoChef
+# Algo Chef
 
 ## 1. Introduction
 
@@ -89,7 +89,7 @@ The system will be divided into three main components:
 - **name**: String
 - **email**: String
 - **password**: String (hashed)
-- **role**: String (user/admin)
+- **role**: String (user/admin/moderator)
 - **created_at**: Date
 
 # Problem
