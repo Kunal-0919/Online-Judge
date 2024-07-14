@@ -118,7 +118,7 @@ function AddProblemPage() {
               </button>
               <button
                 onClick={handleDeleteLastConstraint}
-                className="block w-full border-1 border-black font-sans bg-red-500 text-black px-2 py-3 rounded-md transition duration-200 hover:shadow-md  hover:shadow-black hover:rounded-full"
+                className="block w-full border-1 border-black font-sans bg-danger text-black px-2 py-3 rounded-md transition duration-200 hover:shadow-md  hover:shadow-black hover:rounded-full"
               >
                 Delete Last Constraint
               </button>
