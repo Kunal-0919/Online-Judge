@@ -9,13 +9,13 @@ function BottomNavAddProblem({ onReset, onSubmit }) {
     >
       <button
         onClick={onReset}
-        className="bg-white font-sans text-black px-7 py-1 transition duration-200 hover:shadow-2xl hover:rounded-full rounded-lg border-black border-2"
+        className="bg-white font-sans text-black px-7 py-1 transition duration-200 hover:shadow-2xl hover:rounded-full rounded-lg border-black border-1"
       >
         Reset
       </button>
       <button
         onClick={onSubmit}
-        className="bg-yellow-500 font-sans ml-6 text-black px-7 py-1 transition duration-200 hover:shadow-2xl hover:rounded-full rounded-lg border-black border-2"
+        className="bg-yellow-500 font-sans ml-6 text-black px-7 py-1 transition duration-200 hover:shadow-2xl hover:rounded-full rounded-lg border-black border-1"
       >
         Submit
       </button>

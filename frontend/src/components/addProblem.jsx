@@ -66,7 +66,7 @@ function AddProblemPage() {
               name="input_name"
               id="input_name"
               className="block p-2 border border-gray-300 mb-4 w-full bg-slate-100 font-sans text-black rounded-lg"
-              placeholder="Add Input Name"
+              placeholder="Add Problem Name"
               value={problem_name}
               onChange={(e) => setProblemName(e.target.value)}
             />
@@ -112,13 +112,13 @@ function AddProblemPage() {
             <div className="flex space-x-4 mt-8">
               <button
                 onClick={handleAddConstraint}
-                className="block w-full border-2 border-black font-sans bg-green-500 text-black p-2 rounded-xl transition duration-200 hover:shadow-lg hover:shadow-black hover:rounded-full"
+                className="block w-full border-1 border-black font-sans bg-green-400 text-black px-2 py-3 rounded-md transition duration-200 hover:shadow-md  hover:shadow-black hover:rounded-full"
               >
                 Add More Constraints
               </button>
               <button
                 onClick={handleDeleteLastConstraint}
-                className="block w-full border-2 border-black font-sans bg-red-500 text-black p-2 rounded-xl transition duration-200 hover:shadow-lg hover:shadow-black hover:rounded-full"
+                className="block w-full border-1 border-black font-sans bg-red-500 text-black px-2 py-3 rounded-md transition duration-200 hover:shadow-md  hover:shadow-black hover:rounded-full"
               >
                 Delete Last Constraint
               </button>
