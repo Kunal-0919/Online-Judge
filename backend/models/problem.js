@@ -10,7 +10,7 @@ const problemSchema = new mongoose.Schema({
     required: true,
   },
   input_format: {
-    type: Array,
+    type: String,
     required: true,
   },
   output_format: {

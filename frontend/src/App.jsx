@@ -1,14 +1,14 @@
 import { Routes, Route, Link } from "react-router-dom";
 import Login from "./components/login";
 import Signup from "./components/Signup";
-import CreateProblemModerator from "./components/addProblem";
+import AddProblemPage from "./components/addProblem";
 function App() {
   return (
     <>
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/addproblem" element={<CreateProblemModerator />} />
+        <Route path="/addproblem" element={<AddProblemPage />} />
       </Routes>
     </>
   );

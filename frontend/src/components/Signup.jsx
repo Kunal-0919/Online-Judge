@@ -1,6 +1,6 @@
 import { useState } from "react";
 import LogoComponent from "./LogoComponent";
-import Img from "../public/backgroundImg.jpg";
+import { Link } from "react-router-dom";
 
 function Signup() {
   const [firstName, setFirstName] = useState("");
@@ -46,15 +46,17 @@ function Signup() {
 
   return (
     <div
-      className="flex items-center justify-center min-h-screen bg-cover bg-center"
-      style={{ backgroundImage: `url("/backgroundImg.jpg")` }}
+      className="font-serif flex items-center justify-center min-h-screen bg-cover bg-center"
+      style={{
+        backgroundImage: `url('https://images.unsplash.com/flagged/photo-1593005510329-8a4035a7238f?ixlib=rb-4.0.3')`,
+      }}
     >
-      <div className="relative z-10 w-full max-w-md mx-4 md:mx-auto p-8 bg-white shadow-lg rounded-lg text-center">
+      <div className="relative z-10 w-full max-w-md mx-4 md:mx-auto p-8 transition duration-300 bg-primary shadow-xl rounded-lg text-center hover:shadow-2xl">
         <div className="flex justify-center mb-1">
           <LogoComponent height="100px" width="100px" rounded={true} />
         </div>
-        <h1 className="text-5xl text-black font-bold mb-4">Algo Chef</h1>
-        <h2 className="text-4xl text-black font-bold mb-4">Create Account</h2>
+        <h1 className="text-5xl text-black mb-4">Algo Chef</h1>
+        <h2 className="text-4xl text-black mb-4">Create Account</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         {successMessage && (
           <p className="text-green-500 mb-4">{successMessage}</p>
@@ -65,8 +67,9 @@ function Signup() {
           onChange={(e) => setFirstName(e.target.value)}
           name="userFirstName"
           id="userFirstName"
-          className="block p-2 border border-gray-300 rounded mb-4 w-full"
+          className="font-sans block p-2 border border-gray-300 rounded mb-4 w-full"
           placeholder="First Name"
+          required={true}
         />
         <input
           type="text"
@@ -74,8 +77,9 @@ function Signup() {
           onChange={(e) => setLastName(e.target.value)}
           name="userLastName"
           id="userLastName"
-          className="block p-2 border border-gray-300 rounded mb-4 w-full"
+          className="font-sans block p-2 border border-gray-300 rounded mb-4 w-full"
           placeholder="Last Name"
+          required={true}
         />
         <input
           type="email"
@@ -83,8 +87,9 @@ function Signup() {
           onChange={(e) => setEmail(e.target.value)}
           name="userEmail"
           id="userEmail"
-          className="block p-2 border border-gray-300 rounded mb-4 w-full"
+          className="font-sans block p-2 border border-gray-300 rounded mb-4 w-full"
           placeholder="Email"
+          required={true}
         />
         <input
           type="password"
@@ -92,16 +97,20 @@ function Signup() {
           onChange={(e) => setPassword(e.target.value)}
           name="userPass"
           id="userPass"
-          className="block p-2 border border-gray-300 rounded mb-4 w-full"
+          className="font-sans block p-2 border border-gray-300 rounded mb-4 w-full"
           placeholder="Password"
+          required={true}
         />
-
         <button
           onClick={handleSignup}
-          className="w-full bg-black text-white p-2 rounded-lg transition duration-1000 ease-in-out hover:bg-white hover:text-black border-2 border-black font-extrabold hover:rounded-full"
+          className="font-sans font-bold w-full bg-yellow-400 my-5 text-black border-2 border-black p-2 rounded-lg transition duration-200 hover:rounded-full ease-in-out hover:shadow-lg hover:shadow-black"
         >
           Create Account
         </button>
+
+        <Link to="/login" className="underline text-blue-600">
+          Already have an account?
+        </Link>
       </div>
     </div>
   );

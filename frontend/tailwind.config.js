@@ -4,8 +4,10 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "rgb(38,38,38)",
-        secondary: "rgb(46, 46, 46)",
+        primary: "#F8F8F8",
+      },
+      fontFamily: {
+        roboto: ["Roboto", "sans-serif"],
       },
     },
   },
