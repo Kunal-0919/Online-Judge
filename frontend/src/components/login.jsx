@@ -49,7 +49,7 @@ function Login() {
     >
       <div className="relative z-10 w-full max-w-md mx-4 md:mx-auto p-8 transition duration-300 bg-primary shadow-xl rounded-lg text-center hover:shadow-2xl hover:shadow-black">
         <div className="flex justify-center mb-1">
-          <LogoComponent height="80px" width="80px" rounded={true} />
+          <LogoComponent height="90px" width="90px" rounded={true} />
         </div>
         <h1 className="text-5xl text-black mb-4 text-center">AlgoChef</h1>
         <h2 className="text-4xl text-black mb-4 text-center">Login</h2>

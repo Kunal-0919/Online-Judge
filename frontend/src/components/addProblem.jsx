@@ -112,13 +112,13 @@ function AddProblemPage() {
             <div className="flex space-x-4 mt-8">
               <button
                 onClick={handleAddConstraint}
-                className="block w-full border-1 border-black font-sans bg-green-400 text-black px-2 py-3 rounded-md transition duration-200 hover:shadow-md  hover:shadow-black hover:rounded-full"
+                className="block w-full border-1 font-sans bg-green-400 text-black px-2 py-3 rounded-md transition duration-200 hover:rounded-full"
               >
                 Add More Constraints
               </button>
               <button
                 onClick={handleDeleteLastConstraint}
-                className="block w-full border-1 border-black font-sans bg-danger text-black px-2 py-3 rounded-md transition duration-200 hover:shadow-md  hover:shadow-black hover:rounded-full"
+                className="block w-full border-1 font-sans bg-danger text-black px-2 py-3 rounded-md transition duration-200 hover:rounded-full"
               >
                 Delete Last Constraint
               </button>

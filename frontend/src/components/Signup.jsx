@@ -53,7 +53,7 @@ function Signup() {
     >
       <div className="relative z-10 w-full max-w-md mx-4 md:mx-auto p-8 transition duration-300 bg-primary shadow-xl hover:shadow-black rounded-lg text-center hover:shadow-2xl">
         <div className="flex justify-center mb-1">
-          <LogoComponent height="100px" width="100px" rounded={true} />
+          <LogoComponent height="90px" width="90px" rounded={true} />
         </div>
         <h1 className="text-5xl text-black mb-4">Algo Chef</h1>
         <h2 className="text-4xl text-black mb-4">Create Account</h2>
