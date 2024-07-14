@@ -5,6 +5,8 @@ const { DBConnection } = require("./database/db.js");
 const User = require("./models/user.js");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const Problem = require("./models/problem.js");
+const { default: mongoose } = require("mongoose");
 
 dotenv.config();
 
@@ -29,7 +31,7 @@ app.get("/", (req, res) => {
 
 app.post("/register", async (req, res) => {
   try {
-    const { firstname, lastname, email, password } = req.body;
+    const { firstname, lastname, email, password, role } = req.body;
 
     // Validate input fields
     if (!firstname || !lastname || !email || !password) {
@@ -53,7 +55,7 @@ app.post("/register", async (req, res) => {
       lastname,
       email,
       password: hashedPassword,
-      role: "user", // Default role
+      role: "user",
       created_at: new Date(),
     });
 
@@ -113,6 +115,68 @@ app.post("/login", async (req, res) => {
   } catch (error) {
     console.log("Error in login: ", error);
     res.status(500).send("Internal Server Error");
+  }
+});
+
+app.post("/addproblem", async (req, res) => {
+  try {
+    const {
+      problem_name,
+      problem_desc,
+      input_format,
+      output_format,
+      constraints,
+      example_cases,
+      role,
+    } = req.body;
+    if (
+      !(
+        problem_name &&
+        problem_desc &&
+        input_format &&
+        output_format &&
+        constraints &&
+        example_cases &&
+        role
+      )
+    ) {
+      return res.send("Enter all the fields").status(400);
+    }
+    if (!(role == "admin" || role == "moderator")) {
+      res
+        .status(400)
+        .send(
+          "You dont have the permission to add a problem, only a moderator or admin can do so"
+        );
+    }
+
+    // now what we need is we need to first check if the problem name is already present
+    const existingProblem = await Problem.findOne({ problem_name });
+    if (existingProblem) {
+      // problem name already exists
+      res
+        .status(400)
+        .send("Problem Name Already Exists, Please change the name");
+    }
+
+    // now we need to store the problem into the database
+    const problem = await Problem.create({
+      problem_name,
+      problem_desc,
+      input_format,
+      output_format,
+      constraints,
+      example_cases,
+      created_at: new Date(),
+    });
+    // return
+    res.status(201).json({
+      message: "Problem Added Succesfully",
+      success: true,
+      problem,
+    });
+  } catch (error) {
+    console.log("Error while adding problem, ", error);
   }
 });
 
