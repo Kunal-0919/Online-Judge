@@ -65,7 +65,7 @@ function AddProblemPage() {
               type="text"
               name="input_name"
               id="input_name"
-              className="block p-2 border border-gray-300 rounded mb-4 w-full"
+              className="block p-2 border border-gray-300 mb-4 w-full bg-slate-900 text-white rounded-lg"
               placeholder="Add Input Name"
               value={problem_name}
               onChange={(e) => setProblemName(e.target.value)}
@@ -73,7 +73,7 @@ function AddProblemPage() {
             <textarea
               name="problem_desc"
               id="problem_desc"
-              className="block p-2 border border-gray-300 rounded mb-4 w-full h-36"
+              className="block p-2 border border-gray-300 mb-4 w-full h-36 pl-5 bg-slate-900 text-white rounded-lg"
               placeholder="Add Problem Statement"
               value={problem_desc}
               onChange={(e) => setProblemDesc(e.target.value)}
@@ -81,7 +81,7 @@ function AddProblemPage() {
             <textarea
               name="input_format"
               id="input_format"
-              className="block p-2 border border-gray-300 rounded mb-4 w-full h-36"
+              className="block p-2 border border-gray-300 mb-4 w-full h-36 pl-5 bg-slate-900 text-white rounded-lg"
               placeholder="Add Input Format"
               value={input_format}
               onChange={handleInputChange}
@@ -89,7 +89,7 @@ function AddProblemPage() {
             <textarea
               name="output_format"
               id="output_format"
-              className="block p-2 border border-gray-300 rounded mb-4 w-full h-36"
+              className="block p-2 border border-gray-300 mb-4 w-full h-36 pl-5 bg-slate-900 text-white rounded-lg"
               placeholder="Add Output Format"
               value={output_format}
               onChange={handleOutputChange}
@@ -103,7 +103,7 @@ function AddProblemPage() {
               <input
                 key={index}
                 type="text"
-                className="block p-2 border border-gray-300 rounded mb-4 w-full"
+                className="block p-2 border border-gray-300 mb-4 w-full bg-slate-900 text-white rounded-lg"
                 placeholder={`Constraint ${index + 1}`}
                 value={constraint}
                 onChange={(e) => handleConstraintChange(index, e.target.value)}

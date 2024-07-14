@@ -51,7 +51,7 @@ function Signup() {
         backgroundImage: `url('https://images.unsplash.com/flagged/photo-1593005510329-8a4035a7238f?ixlib=rb-4.0.3')`,
       }}
     >
-      <div className="relative z-10 w-full max-w-md mx-4 md:mx-auto p-8 transition duration-300 bg-primary shadow-xl rounded-lg text-center hover:shadow-2xl">
+      <div className="relative z-10 w-full max-w-md mx-4 md:mx-auto p-8 transition duration-300 bg-primary shadow-xl hover:shadow-black rounded-lg text-center hover:shadow-2xl">
         <div className="flex justify-center mb-1">
           <LogoComponent height="100px" width="100px" rounded={true} />
         </div>
