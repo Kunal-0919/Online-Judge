@@ -25,6 +25,7 @@ function Signup() {
             email: email,
             password: password,
           }),
+          credentials: "include",
         }
       );
 
