@@ -12,7 +12,7 @@ function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/login`, {
+      const response = await fetch(`http://localhost:8000/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -24,17 +24,16 @@ function Login() {
         credentials: "include",
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        setSuccessMessage(data.message);
-        // Optionally, you might want to store the token in localStorage or sessionStorage for future requests
-        // localStorage.setItem("token", data.token);
-        setEmail("");
-        setPassword("");
-      } else {
+      if (!response.ok) {
+        const data = await response.json();
         setError(data.message || "Login failed");
+        return;
       }
+
+      const data = await response.json();
+      setSuccessMessage(data.message);
+      setEmail("");
+      setPassword("");
     } catch (error) {
       console.error("Error logging in:", error);
       setError("Internal Server Error. Please try again later.");

@@ -19,7 +19,7 @@ const Navbar = ({ text }) => {
 
   return (
     <nav
-      className={`fixed shadow-sm shadow-slate-300 rounded-md bg-primary top-0 left-0 w-full transition-transform duration-300 z-20 ${
+      className={`fixed text-black shadow-sm shadow-slate-300 bg-primary top-0 left-0 w-full transition-transform duration-300 z-20 ${
         scrolled ? "transform translate-y-1 shadow-md bg-white" : ""
       }`}
     >

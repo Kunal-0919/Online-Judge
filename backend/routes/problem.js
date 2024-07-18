@@ -12,6 +12,7 @@ router.post("/addproblem", async (req, res) => {
       output_format,
       constraints,
       example_cases,
+      tag,
     } = req.body;
 
     const token = req.cookies.token;
@@ -34,7 +35,8 @@ router.post("/addproblem", async (req, res) => {
         input_format &&
         output_format &&
         constraints &&
-        example_cases
+        example_cases &&
+        tag
       )
     ) {
       return res.status(400).send("Enter all the fields");
@@ -63,6 +65,8 @@ router.post("/addproblem", async (req, res) => {
       output_format,
       constraints,
       example_cases,
+      tag,
+      topic_tag,
       created_at: new Date(),
     });
 
@@ -93,6 +97,25 @@ router.get("/problems", async (req, res) => {
   } catch (error) {
     console.log("Error while retrieving problems", error);
     res.status(500).send("Internal Server Error");
+  }
+});
+
+// DELETE request to delete a problem by ID
+router.delete("/problems/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    // Check if the problem exists
+    const problem = await Problem.findById(id);
+    if (!problem) {
+      return res.status(404).json({ message: "Problem not found" });
+    }
+
+    // Delete the problem
+    await Problem.findByIdAndDelete(id);
+    res.status(200).json({ message: "Problem deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
   }
 });
 
