@@ -46,48 +46,45 @@ function Signup() {
   };
 
   return (
-    <div
-      className="font-serif flex items-center justify-center min-h-screen bg-cover bg-center"
-      style={{
-        backgroundImage: `url('https://images.unsplash.com/flagged/photo-1593005510329-8a4035a7238f?ixlib=rb-4.0.3')`,
-      }}
-    >
+    <div className="font-serif flex items-center justify-center min-h-screen bg-cover bg-center">
       <div className="relative z-10 w-full max-w-md mx-4 md:mx-auto p-8 transition duration-300 bg-primary shadow-xl hover:shadow-black rounded-lg text-center hover:shadow-2xl">
         <div className="flex justify-center mb-1">
           <LogoComponent height="90px" width="90px" rounded={true} />
         </div>
-        <h1 className="text-5xl text-black mb-4">Algo Chef</h1>
+        <h1 className="text-5xl text-black mb-4">AlgoChef</h1>
         <h2 className="text-4xl text-black mb-4">Create Account</h2>
         {error && <p className="text-red-500 mb-4">{error}</p>}
         {successMessage && (
           <p className="text-green-500 mb-4">{successMessage}</p>
         )}
-        <input
-          type="text"
-          value={firstName}
-          onChange={(e) => setFirstName(e.target.value)}
-          name="userFirstName"
-          id="userFirstName"
-          className="font-sans block p-2 border border-gray-300 rounded mb-4 w-full"
-          placeholder="First Name"
-          required={true}
-        />
-        <input
-          type="text"
-          value={lastName}
-          onChange={(e) => setLastName(e.target.value)}
-          name="userLastName"
-          id="userLastName"
-          className="font-sans block p-2 border border-gray-300 rounded mb-4 w-full"
-          placeholder="Last Name"
-          required={true}
-        />
+        <div className="flex mb-4">
+          <input
+            type="text"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+            name="firstname"
+            id="firstname"
+            className="font-sans block p-2 border border-gray-300 rounded mb-4 mr-2 w-full"
+            placeholder="First Name"
+            required={true}
+          />
+          <input
+            type="text"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+            name="lastname"
+            id="lastname"
+            className="font-sans block p-2 border border-gray-300 rounded mb-4 ml-2 w-full"
+            placeholder="Last Name"
+            required={true}
+          />
+        </div>
         <input
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          name="userEmail"
-          id="userEmail"
+          name="email"
+          id="email"
           className="font-sans block p-2 border border-gray-300 rounded mb-4 w-full"
           placeholder="Email"
           required={true}
@@ -96,8 +93,8 @@ function Signup() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          name="userPass"
-          id="userPass"
+          name="password"
+          id="password"
           className="font-sans block p-2 border border-gray-300 rounded mb-4 w-full"
           placeholder="Password"
           required={true}
@@ -109,7 +106,7 @@ function Signup() {
           Create Account
         </button>
 
-        <Link to="/login" className="underline text-blue-600">
+        <Link to="/login" className="underline text-black font-sans">
           Already have an account?
         </Link>
       </div>

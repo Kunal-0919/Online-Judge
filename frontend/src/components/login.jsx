@@ -41,12 +41,7 @@ function Login() {
   };
 
   return (
-    <div
-      className="flex items-center justify-center min-h-screen bg-primary font-serif"
-      style={{
-        backgroundImage: `url('https://images.unsplash.com/flagged/photo-1593005510329-8a4035a7238f?ixlib=rb-4.0.3')`,
-      }}
-    >
+    <div className="flex items-center justify-center min-h-screen bg-primary font-serif">
       <div className="relative z-10 w-full max-w-md mx-4 md:mx-auto p-8 transition duration-300 bg-primary shadow-xl rounded-lg text-center hover:shadow-2xl hover:shadow-black">
         <div className="flex justify-center mb-1">
           <LogoComponent height="90px" width="90px" rounded={true} />
@@ -61,8 +56,8 @@ function Login() {
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          name="userEmail"
-          id="userEmail"
+          name="email"
+          id="email"
           className="font-sans block p-2 border border-gray-300 rounded mb-4 w-full"
           placeholder="Email"
           required={true}
@@ -71,8 +66,8 @@ function Login() {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          name="userPass"
-          id="userPass"
+          name="password"
+          id="password"
           className="font-sans block p-2 border border-gray-300 rounded mb-4 w-full"
           placeholder="Password"
           required={true}
