@@ -3,7 +3,20 @@ const router = express.Router();
 const Problem = require("../models/problem.js");
 const jwt = require("jsonwebtoken");
 
-router.post("/addproblem", async (req, res) => {
+// Middleware to verify token and extract user role
+const authenticateToken = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) return res.status(401).send("Unauthorized: No token provided");
+  // console.log(token);
+  jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+    if (err) return res.status(401).send("Unauthorized: Invalid token");
+    req.user = decoded;
+    next();
+  });
+};
+
+// Add problem route
+router.post("/addproblem", authenticateToken, async (req, res) => {
   try {
     const {
       problem_name,
@@ -13,20 +26,8 @@ router.post("/addproblem", async (req, res) => {
       constraints,
       example_cases,
       tag,
+      topic_tag,
     } = req.body;
-
-    const token = req.cookies.token;
-    if (!token) {
-      return res.status(401).send("Unauthorized: No token provided");
-    }
-
-    let role;
-    try {
-      const decoded = jwt.verify(token, process.env.SECRET_KEY);
-      role = decoded.role;
-    } catch (err) {
-      return res.status(401).send("Unauthorized: Invalid token");
-    }
 
     if (
       !(
@@ -41,7 +42,8 @@ router.post("/addproblem", async (req, res) => {
     ) {
       return res.status(400).send("Enter all the fields");
     }
-    if (!(role === "admin" || role === "moderator")) {
+
+    if (!(req.user.role === "admin" || req.user.role === "moderator")) {
       return res
         .status(403)
         .send(
@@ -82,7 +84,9 @@ router.post("/addproblem", async (req, res) => {
   }
 });
 
+// Get all problems route
 router.get("/problems", async (req, res) => {
+  // Added middleware here
   try {
     const problems = await Problem.find({});
     if (!problems) {
@@ -101,22 +105,24 @@ router.get("/problems", async (req, res) => {
 });
 
 // DELETE request to delete a problem by ID
-router.delete("/problems/:id", async (req, res) => {
-  const { id } = req.params;
+app.delete("/delete/:problem_id", async (req, res) => {
   try {
-    // Check if the problem exists
-    const problem = await Problem.findById(id);
-    if (!problem) {
+    const problem_id = req.params.problem_id; // Extract problem_id from URL params
+
+    // Validate problem_id if necessary
+    if (!mongoose.Types.ObjectId.isValid(problem_id)) {
+      return res.status(400).json({ message: "Invalid problem ID format" });
+    }
+
+    const result = await Problem.findByIdAndDelete(problem_id);
+
+    if (!result) {
       return res.status(404).json({ message: "Problem not found" });
     }
 
-    // Delete the problem
-    await Problem.findByIdAndDelete(id);
     res.status(200).json({ message: "Problem deleted successfully" });
   } catch (error) {
-    console.error(error);
+    console.log("Error while deleting problem", error);
     res.status(500).json({ message: "Server error" });
   }
 });
-
-module.exports = router;

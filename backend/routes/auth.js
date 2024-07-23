@@ -31,24 +31,25 @@ router.post("/register", async (req, res) => {
       lastname,
       email,
       password: hashedPassword,
-      role: "user",
+      role: role || "user", // Use provided role or default to "user"
       created_at: new Date(),
     });
 
     // Generate JWT token
     const token = jwt.sign(
-      { id: user._id, email, role },
+      { id: user._id, email, role: user.role },
       process.env.SECRET_KEY,
-      {
-        expiresIn: "1d",
-      }
+      { expiresIn: "1d" }
     );
 
+    // Set cookie with token
     res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production", // true in production, false in development
       sameSite: "Strict",
+      path: "/",
     });
+
     // Respond with success message, user details (without password), and token
     user.password = undefined; // Hide password from response
     res.status(201).json({
@@ -63,7 +64,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-//
 // Login route
 router.post("/login", async (req, res) => {
   try {
@@ -90,18 +90,19 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign(
       { id: user._id, email, role: user.role },
       process.env.SECRET_KEY,
-      {
-        expiresIn: "1d",
-      }
+      { expiresIn: "1d" }
     );
+
+    // Set cookie with token
     res.cookie("token", token, {
-      httpOnly: true,
-      secure: true,
+      httpOnly: false,
+      secure: process.env.NODE_ENV === "production",
       sameSite: "Strict",
+      path: "/",
     });
 
-    // Respond with success message, user details (without password), and token
     user.password = undefined; // Hide password from response
+    // Respond with success message, user details (without password), and token
     res.status(200).json({
       message: "Login Successful",
       success: true,
