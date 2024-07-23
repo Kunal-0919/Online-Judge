@@ -1,25 +1,39 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
+import { jwtDecode } from "jwt-decode"; // Use the correct import
 
 const Navbar = ({ backgroundcolor }) => {
+  const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
 
-  // Retrieve authentication status from the cookie
-  const isAuthenticated = !!Cookies.get("authToken");
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      try {
+        const decodedToken = jwtDecode(token); // Decode the token
+        const adminStatus = decodedToken.role === "admin";
+        setIsAdmin(adminStatus);
+      } catch (error) {
+        console.error("Error decoding token:", error);
+      }
+    }
+  }, []);
 
-  const bgColorClass = backgroundcolor === true ? "bg-black" : "bg-white";
+  // Retrieve authentication status from the cookie
+  const isAuthenticated = !!Cookies.get("token");
+
+  const bgColorClass = backgroundcolor === true ? "bg-secblack" : "bg-white";
   const textColorClass =
     backgroundcolor === true ? "text-zinc-300" : "text-gray-700";
   const hoverTextColorClass =
-    backgroundcolor === true ? "hover:text-white" : "hover:text-black";
+    backgroundcolor === true ? "hover:text-white" : "hover:text-secblack";
   const activeTextColorClass =
-    backgroundcolor === true ? "text-white" : "text-black";
+    backgroundcolor === true ? "text-white" : "text-secblack";
   const activeBorderClass =
-    backgroundcolor === true ? "border-white" : "border-black";
-
+    backgroundcolor === true ? "border-white" : "border-secblack";
   const borderClass =
-    backgroundcolor === true ? "border-gray-800" : "border-gray-200";
+    backgroundcolor === true ? "border-gray-800" : "border-gray-600";
 
   const getLinkClass = (path) => {
     return location.pathname === path
@@ -56,6 +70,16 @@ const Navbar = ({ backgroundcolor }) => {
         >
           Contest
         </Link>
+        {isAdmin && (
+          <Link
+            to="/addproblem"
+            className={`transition duration-200 font-semibold ${getLinkClass(
+              "/addproblem"
+            )} p-4`}
+          >
+            Add Problem
+          </Link>
+        )}
       </div>
       <div>
         {!isAuthenticated ? (
@@ -70,7 +94,7 @@ const Navbar = ({ backgroundcolor }) => {
               to="/signup"
               className={`transition duration-200 font-semibold ${hoverTextColorClass} mx-5 ${textColorClass} p-4`}
             >
-              Sign in
+              Sign up
             </Link>
           </>
         ) : null}

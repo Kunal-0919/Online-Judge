@@ -4,13 +4,9 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#F8F8F8",
-        danger: "#ED5E68",
-        darkmode: "#282828",
-        darkmodetxt: "#606060",
-      },
-      fontFamily: {
-        roboto: ["Roboto", "sans-serif"],
+        priblack: "#1A1A1A",
+        secblack: "#282828",
+        terblack: "#2A2A2A",
       },
     },
   },

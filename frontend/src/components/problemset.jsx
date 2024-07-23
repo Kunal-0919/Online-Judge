@@ -1,10 +1,8 @@
 import { useEffect, useState } from "react";
 import Navbar from "./Navbar";
 import Cookies from "js-cookie";
-import * as jwtDecode from "jwt-decode"; // Use named imports
-// import Cookies from "js-cookie";
-
-// // Example usage
+import { jwtDecode } from "jwt-decode";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 const Problemset = () => {
   const [problems, setProblems] = useState([]);
@@ -14,8 +12,6 @@ const Problemset = () => {
   const [filterTopic, setFilterTopic] = useState("");
   const [search, setSearch] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
-
-  // console.log("Token from cookie:", token);
 
   const fetchProblems = async () => {
     try {
@@ -41,17 +37,12 @@ const Problemset = () => {
   useEffect(() => {
     fetchProblems();
     const token = Cookies.get("token");
-    const allCookies = document.cookie;
-    console.log("All cookies:", document.cookie);
-    console.log("Token from cookie:", token);
 
     if (token) {
       try {
         const decodedToken = jwtDecode(token); // Decode the token
-        // console.log("Decoded Token:", decodedToken); // Log the decoded token
         const adminStatus = decodedToken.role === "admin";
         setIsAdmin(adminStatus);
-        // console.log("Is Admin:", adminStatus); // Log admin status
       } catch (error) {
         console.error("Error decoding token:", error);
       }
@@ -129,7 +120,7 @@ const Problemset = () => {
         ) : error ? (
           <p className="text-red-400">{error}</p>
         ) : (
-          <div>
+          <div className="p-12">
             <div className="mb-4 flex flex-wrap gap-4">
               <div className="flex-1 min-w-[200px]">
                 <label className="mr-2">Search:</label>
@@ -169,41 +160,42 @@ const Problemset = () => {
                 </select>
               </div>
             </div>
-            <table className="min-w-full bg-zinc-800 border border-zinc-700 rounded-lg">
+            <table className="min-w-full bg-zinc-800 border-none rounded-lg">
               <thead>
-                <tr className="bg-zinc-700 text-left">
-                  <th className="p-2 border-b">No.</th>
-                  <th className="p-2 border-b">Name</th>
-                  <th className="p-2 border-b">Tag</th>
-                  <th className="p-2 border-b">Topic Tags</th>
-                  <th className="p-2 border-b">Acceptance Percentage</th>
-                  {isAdmin && <th className="p-2 border-b">Actions</th>}
+                <tr className="bg-priblack text-left border-b-2 border-zinc-800 md-2">
+                  <th className="p-2">No.</th>
+                  <th className="p-2">Name</th>
+                  <th className="p-2">Tag</th>
+                  <th className="p-2">Topic Tags</th>
+                  <th className="p-2">Acceptance Percentage</th>
+                  {isAdmin && <th className="p-2">Actions</th>}
                 </tr>
               </thead>
               <tbody>
                 {filteredProblems.map((problem, index) => (
-                  <tr key={problem._id}>
-                    <td className="p-2 border-b">{index + 1}</td>
-                    <td className="p-2 border-b">{problem.problem_name}</td>
-                    <td className={`p-2 border-b ${getTagColor(problem.tag)}`}>
+                  <tr
+                    key={problem._id}
+                    className={index % 2 === 0 ? "bg-priblack" : "terblack"}
+                  >
+                    <td className="p-3">{index + 1}</td>
+                    <td className="p-3">{problem.problem_name}</td>
+                    <td className={`p-3 ${getTagColor(problem.tag)}`}>
                       {problem.tag}
                     </td>
-                    <td className="p-2 border-b">
-                      {problem.topic_tags.join(", ")}
-                    </td>
-                    <td className="p-2 border-b">
+                    <td className="p-3">{problem.topic_tags.join(", ")}</td>
+                    <td className="p-3">
                       {getAcceptancePercentage(
                         problem.submission_count,
                         problem.acceptance_count
                       )}
                     </td>
                     {isAdmin && (
-                      <td className="p-2 border-b">
+                      <td className="p-3">
                         <button
                           onClick={() => handleDelete(problem._id)}
-                          className="bg-red-500 text-white p-1 rounded hover:bg-red-600"
+                          className="rounded-full bg-opacity-80 hover:opacity-50"
                         >
-                          Delete
+                          <DeleteIcon />
                         </button>
                       </td>
                     )}
