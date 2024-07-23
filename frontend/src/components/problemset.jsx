@@ -55,7 +55,7 @@ const Problemset = () => {
         const response = await fetch(
           `${
             import.meta.env.VITE_APP_API_BASE_URL
-          }/problem/problems/${problemId}`,
+          }/problem/delete/${problemId}`,
           {
             method: "DELETE",
             headers: {
