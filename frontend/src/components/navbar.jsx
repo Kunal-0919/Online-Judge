@@ -1,30 +1,79 @@
-import React, { useState, useEffect } from "react";
-const Navbar = ({ text }) => {
-  const [scrolled, setScrolled] = useState(false);
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import Cookies from "js-cookie";
 
-  const handleScroll = () => {
-    if (window.scrollY > 0) {
-      setScrolled(true);
-    } else {
-      setScrolled(false);
-    }
+const Navbar = ({ backgroundcolor }) => {
+  const location = useLocation();
+
+  // Retrieve authentication status from the cookie
+  const isAuthenticated = !!Cookies.get("authToken");
+
+  const bgColorClass = backgroundcolor === true ? "bg-black" : "bg-white";
+  const textColorClass =
+    backgroundcolor === true ? "text-zinc-300" : "text-gray-700";
+  const hoverTextColorClass =
+    backgroundcolor === true ? "hover:text-white" : "hover:text-black";
+  const activeTextColorClass =
+    backgroundcolor === true ? "text-white" : "text-black";
+  const activeBorderClass =
+    backgroundcolor === true ? "border-white" : "border-black";
+
+  const borderClass =
+    backgroundcolor === true ? "border-gray-800" : "border-gray-200";
+
+  const getLinkClass = (path) => {
+    return location.pathname === path
+      ? `border-b-2 ${activeBorderClass} ${activeTextColorClass}`
+      : `${hoverTextColorClass} ${textColorClass}`;
   };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
 
   return (
     <nav
-      className={`fixed text-black shadow-sm shadow-slate-300 bg-primary top-0 left-0 w-full transition-transform duration-300 z-20 ${
-        scrolled ? "transform translate-y-1 shadow-md bg-white" : ""
-      }`}
+      className={`${bgColorClass} flex justify-between items-center pl-12 ${borderClass}`}
     >
-      <div className="container mx-auto py-4 px-6">
-        <h1 className="text-xl font-bold">{text}</h1>
+      <div className="flex items-center space-x-12">
+        <Link
+          to="/explore"
+          className={`transition duration-200 font-semibold ${getLinkClass(
+            "/explore"
+          )} p-4`}
+        >
+          Explore
+        </Link>
+        <Link
+          to="/problemset"
+          className={`transition duration-200 font-semibold ${getLinkClass(
+            "/problemset"
+          )} p-4`}
+        >
+          Problem
+        </Link>
+        <Link
+          to="/contest"
+          className={`transition duration-200 font-semibold ${getLinkClass(
+            "/contest"
+          )} p-4`}
+        >
+          Contest
+        </Link>
+      </div>
+      <div>
+        {!isAuthenticated ? (
+          <>
+            <Link
+              to="/login"
+              className={`transition duration-200 font-semibold ${hoverTextColorClass} mx-5 ${textColorClass} p-4`}
+            >
+              Log in
+            </Link>
+            <Link
+              to="/signup"
+              className={`transition duration-200 font-semibold ${hoverTextColorClass} mx-5 ${textColorClass} p-4`}
+            >
+              Sign in
+            </Link>
+          </>
+        ) : null}
       </div>
     </nav>
   );

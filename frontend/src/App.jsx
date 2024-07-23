@@ -3,11 +3,13 @@ import Login from "./components/login";
 import Signup from "./components/Signup";
 import AddProblemPage from "./components/addProblem";
 import Problemset from "./components/problemset";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <>
       <Routes>
+        {/* <Route path="/" element={<Login />} /> */}
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/addproblem" element={<AddProblemPage />} />

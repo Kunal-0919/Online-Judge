@@ -1,6 +1,6 @@
 // AddProblemPage.js
 import React, { useState } from "react";
-import Navbar from "./navbar";
+import Navbar from "./Navbar";
 import BottomNavAddProblem from "./BottomNavAddProblem";
 
 function AddProblemPage() {
@@ -54,7 +54,7 @@ function AddProblemPage() {
 
   return (
     <>
-      <Navbar text="Add Problem" />
+      <Navbar isAuthenticated={false} backgroundcolor={false} />
       <div className="font-mono pt-16 relative min-h-screen pb-36">
         <div className="flex flex-col md:flex-row w-full">
           <div className="w-full md:w-1/2 p-8 bg-primary shadow-xl rounded-lg text-center mx-4 mt-4 md:mt-0 h-auto">
