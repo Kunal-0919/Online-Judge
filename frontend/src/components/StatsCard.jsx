@@ -1,6 +1,6 @@
 import React from "react";
 
-const StatsCard = ({ problemsCount, submissionCount }) => {
+const Statscard = ({ problemsCount, submissionCount }) => {
   return (
     <div className="bg-secblack text-lctxt p-6 rounded-lg shadow-md max-w-xs m-5">
       <h2 className="text-xl font-bold mb-4">Statistics</h2>
@@ -14,4 +14,4 @@ const StatsCard = ({ problemsCount, submissionCount }) => {
   );
 };
 
-export default StatsCard;
+export default Statscard;

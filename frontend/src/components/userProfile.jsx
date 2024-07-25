@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import Loading from "./Loading"; // Import the Loading component
 import UserInfo from "./userInfo";
-import StatsCard from "./StatsCard"; // Import the StatsCard component
+import Statscard from "./statsCard"; // Import the Statscard component
 
 const Userprofile = () => {
   const [user, setUser] = useState({});
@@ -52,7 +52,7 @@ const Userprofile = () => {
           <UserInfo user={user} className="flex-shrink-0" />{" "}
           {/* Keep the UserInfo card from shrinking */}
           <div className="flex-grow">
-            <StatsCard
+            <Statscard
               problemsCount={user.problems_solved_count}
               submissionCount={user.submission_count}
             />

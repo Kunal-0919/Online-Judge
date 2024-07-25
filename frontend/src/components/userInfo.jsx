@@ -1,49 +1,99 @@
-// UserInfo.jsx
 import React from "react";
+import EmailIcon from "@mui/icons-material/Email";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 
-const UserInfo = ({ user, className }) => {
+const UserInfo = ({ user }) => {
   return (
-    <div
-      className={`bg-secblack m-5 text-lctxt p-6 rounded-lg shadow-md max-w-xs ${className}`}
-    >
-      {/* User Info Display */}
-      <h2 className="text-xl font-bold mb-2">{user.firstname}</h2>
-      <h2 className="mb-3">{user.username}</h2>
-      <p className="mb-2">{user.bio || "N/A"}</p>
-      <p className="mb-2">{user.email}</p>
-      <p className="mb-2">{user.role}</p>
-      <p className="mb-2">{user.gender || "N/A"}</p>
-      <p className="mb-2">
-        {user.birthday ? new Date(user.birthday).toLocaleDateString() : "N/A"}
-      </p>
-      <p className="mb-2">
-        <strong>Organization:</strong> {user.organization || "N/A"}
-      </p>
-      <p className="mb-2">
-        {user.github ? (
-          <a href={user.github} target="_blank" rel="noopener noreferrer">
-            Github
-          </a>
-        ) : (
-          "N/A"
-        )}
-      </p>
-      <p className="mb-2">
-        {user.linkedin ? (
-          <a href={user.linkedin} target="_blank" rel="noopener noreferrer">
-            LinkedIn
-          </a>
-        ) : (
-          "N/A"
-        )}
-      </p>
-      <p className="mb-2">
-        <strong>Submission Count:</strong> {user.submission_count || 0}
-      </p>
-      <p className="mb-2">
-        <strong>Problems Solved Count:</strong>{" "}
-        {user.problems_solved_count || 0}
-      </p>
+    <div className="bg-secblack text-lctxt p-6 rounded-lg shadow-md max-w-xs m-5">
+      {user.username && (
+        <>
+          <h2 className="text-xl font-bold text-white">{user.firstname}</h2>
+          <h2 className="mb-3">{user.username}</h2>
+          {user.bio ? (
+            <p className="mb-2">{user.bio}</p>
+          ) : (
+            <p className="hidden">N/A</p>
+          )}
+          <button
+            className="bg-green-500 bg-opacity-20 h-9 mb-5 w-full text-green-600 rounded transition duration-500 hover:bg-opacity-30"
+            onClick={() => {
+              // route to the page that will help us edit the user Info, we'll only pass the values like
+              //  github and nothing more like problem count and more
+            }}
+          >
+            Edit Profile
+          </button>
+          {user.email && (
+            <p className="mb-2">
+              <span className="mr-2">
+                <EmailIcon />
+              </span>
+              {user.email}
+            </p>
+          )}
+          {user.role && (
+            <p className="mb-2">
+              <span className="mr-2">
+                <AdminPanelSettingsIcon />
+              </span>
+              {user.role}
+            </p>
+          )}
+          {user.birthday ? (
+            <p className="mb-2">
+              {new Date(user.birthday).toLocaleDateString()}
+            </p>
+          ) : (
+            <p className="hidden">N/A</p>
+          )}
+          {user.organization ? (
+            <p className="mb-2">
+              <span className="mr-2">
+                <CorporateFareIcon />
+              </span>
+              {user.organization || <span className="hidden">N/A</span>}
+            </p>
+          ) : (
+            <span className="hidden">N/A</span>
+          )}
+          <p className="mb-2">
+            {user.github ? (
+              <a href={user.github} target="_blank" rel="noopener noreferrer">
+                <span className="mr-2">
+                  <GitHubIcon />
+                </span>
+                Github
+              </a>
+            ) : (
+              <span className="hidden">N/A</span>
+            )}
+          </p>
+          <p className="mb-2">
+            {user.linkedin ? (
+              <a href={user.linkedin} target="_blank" rel="noopener noreferrer">
+                <span className="mr-2">
+                  <LinkedInIcon />
+                </span>
+                LinkedIn
+              </a>
+            ) : (
+              <span className="hidden">N/A</span>
+            )}
+          </p>
+          <p className="mb-2">
+            <strong>Submission Count:</strong> {user.submission_count || 0}
+          </p>
+          <p className="mb-2">
+            <strong>Problems Solved Count:</strong>{" "}
+            {user.problems_solved_count || 0}
+          </p>
+
+          {/* Edit Profile Button */}
+        </>
+      )}
     </div>
   );
 };
