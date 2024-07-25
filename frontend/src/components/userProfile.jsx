@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import Loading from "./Loading"; // Import the Loading component
 import UserInfo from "./userInfo";
-import Statscard from "./statsCard"; // Import the Statscard component
+import Statscard from "./StatsCard"; // Import the Statscard component
 
 const Userprofile = () => {
   const [user, setUser] = useState({});
+  const [problemCount, setProblemCount] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -28,7 +29,9 @@ const Userprofile = () => {
       }
 
       const data = await response.json();
-      setUser(data); // Update state with fetched user data
+      console.log(data);
+      setProblemCount(data.problemStats);
+      setUser(data.user); // Update state with fetched user data
     } catch (error) {
       console.error("Error fetching user profile:", error.message);
       setError(error.message); // Set error state
@@ -49,12 +52,14 @@ const Userprofile = () => {
       <Navbar backgroundcolor={true} />
       <div className="min-h-screen bg-priblack text-white p-4">
         <div className="flex">
-          <UserInfo user={user} className="flex-shrink-0" />{" "}
-          {/* Keep the UserInfo card from shrinking */}
-          <div className="flex-grow">
+          <div className="flex-shrink-0">
+            <UserInfo user={user} />
+          </div>
+          <div className="flex-shrink-0 ml-4">
             <Statscard
               problemsCount={user.problems_solved_count}
               submissionCount={user.submission_count}
+              problemStats={problemCount}
             />
           </div>
         </div>

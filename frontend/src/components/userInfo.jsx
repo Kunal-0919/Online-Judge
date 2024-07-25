@@ -83,15 +83,6 @@ const UserInfo = ({ user }) => {
               <span className="hidden">N/A</span>
             )}
           </p>
-          <p className="mb-2">
-            <strong>Submission Count:</strong> {user.submission_count || 0}
-          </p>
-          <p className="mb-2">
-            <strong>Problems Solved Count:</strong>{" "}
-            {user.problems_solved_count || 0}
-          </p>
-
-          {/* Edit Profile Button */}
         </>
       )}
     </div>
