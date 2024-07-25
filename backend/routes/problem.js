@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 const authenticateToken = (req, res, next) => {
   const token = req.cookies.token;
   if (!token) return res.status(401).send("Unauthorized: No token provided");
-  // console.log(token);
+
   jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
     if (err) return res.status(401).send("Unauthorized: Invalid token");
     req.user = decoded;
@@ -86,7 +86,6 @@ router.post("/addproblem", authenticateToken, async (req, res) => {
 
 // Get all problems route
 router.get("/problems", async (req, res) => {
-  // Added middleware here
   try {
     const problems = await Problem.find({});
     if (!problems) {
@@ -105,14 +104,11 @@ router.get("/problems", async (req, res) => {
 });
 
 // DELETE request to delete a problem by ID
-app.delete("/delete/:problem_id", async (req, res) => {
+router.delete("/delete/:problem_id", async (req, res) => {
   try {
     const problem_id = req.params.problem_id; // Extract problem_id from URL params
 
     // Validate problem_id if necessary
-    if (!mongoose.Types.ObjectId.isValid(problem_id)) {
-      return res.status(400).json({ message: "Invalid problem ID format" });
-    }
 
     const result = await Problem.findByIdAndDelete(problem_id);
 
@@ -126,3 +122,5 @@ app.delete("/delete/:problem_id", async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
+
+module.exports = router;

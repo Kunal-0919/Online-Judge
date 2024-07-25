@@ -7,10 +7,10 @@ const jwt = require("jsonwebtoken");
 // Register route
 router.post("/register", async (req, res) => {
   try {
-    const { firstname, lastname, email, password, role } = req.body;
+    const { username, firstname, lastname, email, password } = req.body;
 
     // Validate input fields
-    if (!firstname || !lastname || !email || !password) {
+    if (!username || !firstname || !lastname || !email || !password) {
       return res.status(400).send("Enter all required information");
     }
 
@@ -27,17 +27,17 @@ router.post("/register", async (req, res) => {
 
     // Create user in DB
     const user = await User.create({
+      username,
       firstname,
       lastname,
       email,
       password: hashedPassword,
-      role: role || "user", // Use provided role or default to "user"
       created_at: new Date(),
     });
 
     // Generate JWT token
     const token = jwt.sign(
-      { id: user._id, email, role: user.role },
+      { id: user._id, username, email, role: user.role },
       process.env.SECRET_KEY,
       { expiresIn: "1d" }
     );
@@ -45,7 +45,7 @@ router.post("/register", async (req, res) => {
     // Set cookie with token
     res.cookie("token", token, {
       httpOnly: false,
-      secure: process.env.NODE_ENV === "production", // true in production, false in development
+      secure: process.env.NODE_ENV === "production",
       sameSite: "Strict",
       path: "/",
     });
@@ -69,50 +69,52 @@ router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Validate input fields
     if (!email || !password) {
-      return res.status(400).send("Enter all required information");
+      return res
+        .status(400)
+        .json({ message: "Email and password are required" });
     }
 
-    // Find user by email
-    const user = await User.findOne({ email });
+    const user = await User.findOne({
+      $or: [
+        {
+          email: email,
+        },
+        {
+          username: email,
+        },
+      ],
+    });
     if (!user) {
-      return res.status(401).send("User not found");
+      return res.status(401).json({ message: "User not found" });
     }
 
-    // Compare passwords
     const passwordMatch = await bcrypt.compare(password, user.password);
     if (!passwordMatch) {
-      return res.status(401).send("Incorrect Password");
+      return res.status(401).json({ message: "Incorrect password" });
     }
 
-    // Generate JWT token
     const token = jwt.sign(
       { id: user._id, email, role: user.role },
       process.env.SECRET_KEY,
       { expiresIn: "1d" }
     );
 
-    // Set cookie with token
     res.cookie("token", token, {
-      httpOnly: false,
+      httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "Strict",
       path: "/",
     });
 
-    user.password = undefined; // Hide password from response
-    // Respond with success message, user details (without password), and token
     res.status(200).json({
-      message: "Login Successful",
-      success: true,
-      user,
+      message: "Login successful",
+      user: { ...user.toObject(), password: undefined },
       token,
     });
   } catch (error) {
-    console.log("Error in login: ", error);
-    res.status(500).send("Internal Server Error");
+    console.error("Error logging in:", error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
-
 module.exports = router;
