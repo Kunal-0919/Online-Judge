@@ -40,6 +40,10 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: null,
   },
+  bio: {
+    type: String,
+    default: null,
+  },
   organization: {
     type: String,
     default: null,
