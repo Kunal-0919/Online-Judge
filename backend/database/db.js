@@ -6,7 +6,7 @@ dotenv.config();
 const DBConnection = async () => {
   const MONGO_URI = process.env.MONGO_URI;
   try {
-    await mognoose.connect(MONGO_URI, { useNewUrlParser: true });
+    await mognoose.connect(MONGO_URI);
     console.log("DB connection established");
   } catch (error) {
     console.log("DB Connection Error : ", error);
