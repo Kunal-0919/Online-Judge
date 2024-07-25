@@ -111,9 +111,8 @@ const Problemset = () => {
 
   return (
     <>
-      <Navbar isAuthenticated={true} backgroundcolor={true} />{" "}
-      {/* Adjust isAuthenticated based on login status */}
-      <div className="min-h-screen bg-zinc-900 text-zinc-100 p-4">
+      <Navbar backgroundcolor={true} />
+      <div className="min-h-screen bg-priblack text-white p-4">
         <h1 className="text-3xl font-bold mb-4">Problems Dashboard</h1>
         {loading ? (
           <p>Loading...</p>

@@ -56,13 +56,13 @@ function Login() {
             <p className="text-green-500 mb-4">{successMessage}</p>
           )}
           <input
-            type="email"
+            type="string"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             name="email"
             id="email"
             className="font-sans block p-2 border border-gray-300 rounded mb-4 w-full"
-            placeholder="Email"
+            placeholder="Username or Email"
             required={true}
           />
           <input

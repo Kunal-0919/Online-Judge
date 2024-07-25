@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
 
 function Signup() {
+  const [username, setUsername] = useState(""); // Added state for username
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -21,6 +22,7 @@ function Signup() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            username, // Added username field
             firstname: firstName,
             lastname: lastName,
             email: email,
@@ -33,6 +35,7 @@ function Signup() {
       const data = await response.json();
       if (response.ok) {
         setSuccessMessage(data.message);
+        setUsername(""); // Clear username field
         setFirstName("");
         setLastName("");
         setEmail("");
@@ -60,6 +63,16 @@ function Signup() {
           {successMessage && (
             <p className="text-green-500 mb-4">{successMessage}</p>
           )}
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            name="username"
+            id="username"
+            className="font-sans block p-2 border border-gray-300 rounded mb-4 w-full"
+            placeholder="Username"
+            required={true}
+          />
           <div className="flex mb-4">
             <input
               type="text"
