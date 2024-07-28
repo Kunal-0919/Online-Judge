@@ -3,6 +3,8 @@ const jwt = require("jsonwebtoken");
 const router = express.Router();
 const generateFile = require("../controllers/generateFile");
 const executeCpp = require("../controllers/executeCpp");
+const executePython = require("../controllers/executePython");
+const executeJS = require("../controllers/executeJS");
 
 // Middleware to verify token and extract user role
 const authenticateToken = (req, res, next) => {
@@ -27,6 +29,10 @@ router.post("/run", authenticateToken, async (req, res) => {
     let output;
     if (lang === "cpp") {
       output = await executeCpp(filePath);
+    } else if (lang == "py") {
+      output = await executePython(filePath);
+    } else if (lang == "js") {
+      output = await executeJS(filePath);
     }
 
     res.json({

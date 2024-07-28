@@ -18,13 +18,9 @@ const executeCpp = (filePath) => {
     exec(
       `g++ "${filePath}" -o "${outputPath}" && "${outputPath}"`,
       (error, stdout, stderr) => {
-        if (error) {
-          return reject({ error, stderr });
-        }
-        if (stderr) {
-          return reject({ error, stderr });
-        }
-        resolve(stdout.trim()); // Ensure to return stdout correctly
+        if (error) return reject({ error, stderr });
+        if (stderr) return reject({ error, stderr });
+        resolve(stdout.trim());
       }
     );
   });
