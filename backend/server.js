@@ -28,10 +28,12 @@ DBConnection();
 const authRoutes = require("./routes/auth");
 const problemRoutes = require("./routes/problem");
 const userProfileRoutes = require("./routes/userprofile");
+const coderunnerRoutes = require("./routes/coderunner");
 
 app.use("/problem", problemRoutes);
 app.use("/auth", authRoutes);
-app.use("/userprofile", userProfileRoutes); // Correctly set to userProfileRoutes
+app.use("/userprofile", userProfileRoutes);
+app.use("/coderunner", coderunnerRoutes);
 
 app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
