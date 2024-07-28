@@ -107,7 +107,7 @@ router.get("/problems", async (req, res) => {
 router.delete("/delete/:problem_id", async (req, res) => {
   try {
     const problem_id = req.params.problem_id; // Extract problem_id from URL params
-
+    // ********************* we also need to see for the role of the person *****************************
     // Validate problem_id if necessary
 
     const result = await Problem.findByIdAndDelete(problem_id);

@@ -3,6 +3,7 @@ import Navbar from "./Navbar";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { useNavigate } from "react-router-dom";
 
 const Problemset = () => {
   const [problems, setProblems] = useState([]);
@@ -12,6 +13,8 @@ const Problemset = () => {
   const [filterTopic, setFilterTopic] = useState("");
   const [search, setSearch] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+
+  const navigate = useNavigate();
 
   const fetchProblems = async () => {
     try {
@@ -70,9 +73,9 @@ const Problemset = () => {
     }
   };
 
-  const handleColumnClick = (id) => {
-    console.log(`Column clicked: ${id}`);
-    // Add additional logic if needed
+  const handleProblemClick = (id) => {
+    console.log(id);
+    navigate(`/problem/${id}`); // Navigate to the dynamic route
   };
 
   const filteredProblems = problems.filter((problem) => {
@@ -187,7 +190,7 @@ const Problemset = () => {
                   <tr
                     key={problem._id}
                     id={problem._id}
-                    onClick={() => handleColumnClick(problem._id)}
+                    onClick={() => handleProblemClick(problem._id)}
                     className={index % 2 === 0 ? "bg-priblack" : "terblack"}
                   >
                     <td className="p-3">{index + 1}</td>
