@@ -12,7 +12,7 @@ if (!fs.existsSync(dirOutputs)) {
 const executeCpp = (filePath) => {
   const fileName = path.basename(filePath).split(".")[0];
   const outputFile = `${fileName}.out`;
-  const outputPath = path.join(dirOutputs, outputFile); // Save to compiledOutputs directory
+  const outputPath = path.join(dirOutputs, outputFile);
 
   return new Promise((resolve, reject) => {
     exec(

@@ -123,4 +123,26 @@ router.delete("/delete/:problem_id", async (req, res) => {
   }
 });
 
+// Get problem details by ID route
+router.get("/:problem_id", async (req, res) => {
+  try {
+    const problem_id = req.params.problem_id; // Extract problem_id from URL params
+
+    // Fetch problem details from the database
+    const problem = await Problem.findById(problem_id);
+    if (!problem) {
+      return res.status(404).json({ message: "Problem not found" });
+    }
+
+    res.status(200).json({
+      message: "Successfully retrieved problem details",
+      success: true,
+      problem,
+    });
+  } catch (error) {
+    console.log("Error while retrieving problem details", error);
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
 module.exports = router;

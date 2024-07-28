@@ -23,10 +23,7 @@ const Problemset = () => {
         throw new Error("Failed to fetch problems");
       }
       const data = await response.json();
-      const sortedProblems = data.problems.sort(
-        (a, b) => new Date(b.created_at) - new Date(a.created_at)
-      );
-      setProblems(sortedProblems);
+      setProblems(data.problems);
     } catch (error) {
       setError("Error fetching problems");
     } finally {
@@ -71,6 +68,11 @@ const Problemset = () => {
         setError("Error deleting problem");
       }
     }
+  };
+
+  const handleColumnClick = (id) => {
+    console.log(`Column clicked: ${id}`);
+    // Add additional logic if needed
   };
 
   const filteredProblems = problems.filter((problem) => {
@@ -162,11 +164,21 @@ const Problemset = () => {
             <table className="min-w-full bg-zinc-800 border-none rounded-lg">
               <thead>
                 <tr className="bg-priblack text-left border-b-2 border-zinc-800 md-2">
-                  <th className="p-2">No.</th>
-                  <th className="p-2">Name</th>
-                  <th className="p-2">Tag</th>
-                  <th className="p-2">Topic Tags</th>
-                  <th className="p-2">Acceptance Percentage</th>
+                  <th className="p-2" id="number">
+                    No.
+                  </th>
+                  <th className="p-2" id="problem_name">
+                    Name
+                  </th>
+                  <th className="p-2" id="tag">
+                    Tag
+                  </th>
+                  <th className="p-2" id="topic_tags">
+                    Topic Tags
+                  </th>
+                  <th className="p-2" id="acceptance_percentage">
+                    Acceptance Percentage
+                  </th>
                   {isAdmin && <th className="p-2">Actions</th>}
                 </tr>
               </thead>
@@ -174,6 +186,8 @@ const Problemset = () => {
                 {filteredProblems.map((problem, index) => (
                   <tr
                     key={problem._id}
+                    id={problem._id}
+                    onClick={() => handleColumnClick(problem._id)}
                     className={index % 2 === 0 ? "bg-priblack" : "terblack"}
                   >
                     <td className="p-3">{index + 1}</td>
