@@ -4,19 +4,8 @@ const dotenv = require("dotenv");
 const User = require("../models/user");
 const Problems = require("../models/problem"); // Import Problems model
 const router = express.Router();
-
+const authenticateToken = require("../middlewares/authenticateToken");
 dotenv.config();
-
-const authenticateToken = (req, res, next) => {
-  const token = req.cookies.token;
-  if (!token) return res.status(401).send("Unauthorized: No token provided");
-
-  jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
-    if (err) return res.status(401).send("Unauthorized: Invalid token");
-    req.user = decoded;
-    next();
-  });
-};
 
 router.get("/profile", authenticateToken, async (req, res) => {
   try {

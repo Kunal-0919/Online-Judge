@@ -2,18 +2,18 @@ const express = require("express");
 const router = express.Router();
 const Problem = require("../models/problem.js");
 const jwt = require("jsonwebtoken");
-
+const authenticateToken = require("../middlewares/authenticateToken.js");
 // Middleware to verify token and extract user role
-const authenticateToken = (req, res, next) => {
-  const token = req.cookies.token;
-  if (!token) return res.status(401).send("Unauthorized: No token provided");
+// const authenticateToken = (req, res, next) => {
+//   const token = req.cookies.token;
+//   if (!token) return res.status(401).send("Unauthorized: No token provided");
 
-  jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
-    if (err) return res.status(401).send("Unauthorized: Invalid token");
-    req.user = decoded;
-    next();
-  });
-};
+//   jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
+//     if (err) return res.status(401).send("Unauthorized: Invalid token");
+//     req.user = decoded;
+//     next();
+//   });
+// };
 
 // Add problem route
 router.post("/addproblem", authenticateToken, async (req, res) => {
