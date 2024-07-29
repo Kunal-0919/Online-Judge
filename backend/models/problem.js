@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const exampleCaseSchema = new mongoose.Schema({
   input: {
-    type: String, // Assuming input and output are both strings. Change to another type if needed.
+    type: String,
     required: true,
   },
   output: {
@@ -53,6 +53,8 @@ const problemSchema = new mongoose.Schema({
   },
   topic_tags: {
     type: Array, // Changed to an array of strings
+    default: null,
+    required: false,
   },
 });
 

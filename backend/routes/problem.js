@@ -3,6 +3,7 @@ const router = express.Router();
 const Problem = require("../models/problem.js");
 const jwt = require("jsonwebtoken");
 const authenticateToken = require("../middlewares/authenticateToken.js");
+const mongoose = require("mongoose");
 // Middleware to verify token and extract user role
 // const authenticateToken = (req, res, next) => {
 //   const token = req.cookies.token;
@@ -16,6 +17,7 @@ const authenticateToken = require("../middlewares/authenticateToken.js");
 // };
 
 // Add problem route
+
 router.post("/addproblem", authenticateToken, async (req, res) => {
   try {
     const {
@@ -26,7 +28,7 @@ router.post("/addproblem", authenticateToken, async (req, res) => {
       constraints,
       example_cases,
       tag,
-      topic_tag,
+      topic_tags,
     } = req.body;
 
     if (
@@ -51,7 +53,7 @@ router.post("/addproblem", authenticateToken, async (req, res) => {
         );
     }
 
-    // Check if the problem name is already present
+    // Check if the problem name already exists
     const existingProblem = await Problem.findOne({ problem_name });
     if (existingProblem) {
       return res
@@ -59,7 +61,7 @@ router.post("/addproblem", authenticateToken, async (req, res) => {
         .send("Problem Name Already Exists, Please change the name");
     }
 
-    // Store the problem into the database
+    // Create and store the new problem
     const problem = await Problem.create({
       problem_name,
       problem_desc,
@@ -68,21 +70,44 @@ router.post("/addproblem", authenticateToken, async (req, res) => {
       constraints,
       example_cases,
       tag,
-      topic_tag,
+      topic_tags,
       created_at: new Date(),
     });
 
-    // Return success response
+    // Respond with success
     return res.status(201).json({
       message: "Problem Added Successfully",
       success: true,
       problem,
     });
   } catch (error) {
-    console.log("Error while adding problem, ", error);
+    console.log("Error while adding problem:", error);
     return res.status(500).send("Internal Server Error");
   }
 });
+
+// Route to get a problem by ID (for example)
+router.get("/problem/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).send("Invalid ID format");
+    }
+
+    const problem = await Problem.findById(id);
+    if (!problem) {
+      return res.status(404).send("Problem not found");
+    }
+
+    return res.status(200).json(problem);
+  } catch (error) {
+    console.log("Error while retrieving problem:", error);
+    return res.status(500).send("Internal Server Error");
+  }
+});
+
+module.exports = router;
 
 // Get all problems route
 router.get("/problems", async (req, res) => {
@@ -109,7 +134,13 @@ router.delete("/delete/:problem_id", async (req, res) => {
     const problem_id = req.params.problem_id; // Extract problem_id from URL params
     // ********************* we also need to see for the role of the person *****************************
     // Validate problem_id if necessary
-
+    if (req.user.role != "admin") {
+      return res
+        .status(403)
+        .send(
+          "You don't have the permission to delete a problem, only a moderator or admin can do so"
+        );
+    }
     const result = await Problem.findByIdAndDelete(problem_id);
 
     if (!result) {

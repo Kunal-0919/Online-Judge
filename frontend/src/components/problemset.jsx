@@ -3,9 +3,10 @@ import Navbar from "./Navbar";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const Problemset = () => {
+  const location = useLocation(); // Get current location
   const [problems, setProblems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -47,7 +48,7 @@ const Problemset = () => {
         console.error("Error decoding token:", error);
       }
     }
-  }, []);
+  }, [location]); // Add location as a dependency
 
   const handleDelete = async (problemId) => {
     if (window.confirm("Are you sure you want to delete this problem?")) {
@@ -73,9 +74,10 @@ const Problemset = () => {
     }
   };
 
-  const handleProblemClick = (id) => {
+  const handleProblemClick = (id, problemName) => {
     console.log(id);
-    navigate(`/problem/${id}`); // Navigate to the dynamic route
+    const formattedName = problemName.toLowerCase().replace(/ /g, "-");
+    navigate(`/problem/${formattedName}-${id}`);
   };
 
   const filteredProblems = problems.filter((problem) => {
@@ -93,13 +95,13 @@ const Problemset = () => {
   const getTagColor = (tag) => {
     switch (tag) {
       case "easy":
-        return "text-green-400 bg-green-800";
+        return "text-green-400";
       case "medium":
-        return "text-yellow-400 bg-yellow-800";
+        return "text-yellow-400";
       case "hard":
-        return "text-red-400 bg-red-800";
+        return "text-red-400";
       default:
-        return "text-zinc-300 bg-zinc-800";
+        return "text-zinc-300";
     }
   };
 
@@ -190,13 +192,23 @@ const Problemset = () => {
                   <tr
                     key={problem._id}
                     id={problem._id}
-                    onClick={() => handleProblemClick(problem._id)}
-                    className={index % 2 === 0 ? "bg-priblack" : "terblack"}
+                    onClick={() =>
+                      handleProblemClick(problem._id, problem.problem_name)
+                    }
+                    className={
+                      index % 2 === 0
+                        ? "bg-priblack hover:cursor-pointer text-slate-300"
+                        : "terblack hover:cursor-pointer"
+                    }
                   >
                     <td className="p-3">{index + 1}</td>
-                    <td className="p-3">{problem.problem_name}</td>
-                    <td className={`p-3 ${getTagColor(problem.tag)}`}>
-                      {problem.tag}
+                    <td className="p-3 hover:text-white">
+                      {problem.problem_name}
+                    </td>
+                    <td className="p-1">
+                      <p className={`${getTagColor(problem.tag)} p-1`}>
+                        {problem.tag}
+                      </p>
                     </td>
                     <td className="p-3">{problem.topic_tags.join(", ")}</td>
                     <td className="p-3">
