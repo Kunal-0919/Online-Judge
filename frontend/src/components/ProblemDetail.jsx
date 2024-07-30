@@ -14,8 +14,7 @@ import DataObjectIcon from "@mui/icons-material/DataObject";
 const ProblemDetail = () => {
   const [problem, setProblem] = useState(null);
   const [lang, setLang] = useState("cpp");
-  const [code, setCode] = useState(`
-#include <iostream>
+  const [code, setCode] = useState(`#include <iostream>
 using namespace std;
 int main() {
     cout << "Hello World!" << endl;
@@ -179,17 +178,31 @@ int main() {
         </div>
         <div className="right-container flex-1 flex flex-col">
           <div className="top-section bg-sxecblack h-1/2 text-white m-3 rounded-2xl border-2 border-zinc-600 p-4 overflow-auto">
-            <h1 className="text-xl m-2 font-mono text-green-500">
-              <span className="m-2">
+            <h1 className="text-xl m-1 font-mono text-green-500">
+              <span className="mx-2">
                 <DataObjectIcon />
               </span>
               Code
             </h1>
             <select
               name="Select Language"
-              className="p-2 border my-5 border-zinc-700 bg-zinc-800 text-zinc-100 rounded w-full"
+              className="p-2 border my-4 border-zinc-700 bg-zinc-800 text-zinc-100 rounded w-full"
               onChange={(e) => {
                 setLang(e.target.value);
+                const l = e.target.value;
+                if (l === "cpp") {
+                  setCode(`#include <iostream>
+using namespace std;
+int main() {
+    cout << "Hello World!" << endl;
+    return 0;
+}
+`);
+                } else if (l === "py") {
+                  setCode(`print("Hello")`);
+                } else if (l === "js") {
+                  setCode(`console.log("Hello");`);
+                }
               }}
             >
               <option value="cpp">C++</option>
@@ -247,7 +260,7 @@ int main() {
                   name=""
                   id=""
                   value={input}
-                  className="w-4/5 h-64 bg-zinc-900"
+                  className="w-4/5 h-64 p-3 bg-zinc-900"
                   onChange={(e) => {
                     setInput(e.target.value);
                     e.preventDefault;
