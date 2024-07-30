@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
+import Loading from "./Loading";
 import Editor from "react-simple-code-editor";
 import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-clike";
@@ -8,6 +9,7 @@ import "prismjs/themes/prism-funky.css"; //Example style, you can use another
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import DataObjectIcon from "@mui/icons-material/DataObject";
 
 const ProblemDetail = () => {
   const [problem, setProblem] = useState(null);
@@ -20,9 +22,11 @@ int main() {
     return 0;
 }
 `);
+  const [bottomView, setBottomView] = useState("input");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
+  const [verdict, setVerdict] = useState("");
 
   const { problemNameId } = useParams();
   const problem_id = problemNameId.split("-").pop();
@@ -43,6 +47,7 @@ int main() {
   };
 
   const handleRun = async () => {
+    setBottomView("output");
     const apiurl = `${import.meta.env.VITE_APP_API_BASE_URL}/runcode/run`;
     const res = await fetch(apiurl, {
       method: "POST",
@@ -168,15 +173,21 @@ int main() {
               </div>
             </>
           ) : (
-            <p>Loading problem details...</p>
+            <Loading />
+            //
           )}
         </div>
         <div className="right-container flex-1 flex flex-col">
-          <div className="top-section bg-secblack text-white m-3 rounded-2xl border-2 border-zinc-600 p-4 overflow-auto">
-            <h1 className="text-xl font-mono text-white">Code</h1>
+          <div className="top-section bg-sxecblack h-1/2 text-white m-3 rounded-2xl border-2 border-zinc-600 p-4 overflow-auto">
+            <h1 className="text-xl m-2 font-mono text-green-500">
+              <span className="m-2">
+                <DataObjectIcon />
+              </span>
+              Code
+            </h1>
             <select
               name="Select Language"
-              className="p-2 border border-zinc-700 bg-zinc-800 text-zinc-100 rounded w-full"
+              className="p-2 border my-3 border-zinc-700 bg-zinc-800 text-zinc-100 rounded w-full"
               onChange={(e) => {
                 setLang(e.target.value);
               }}
@@ -199,6 +210,58 @@ int main() {
                 overflowY: "auto",
               }}
             />
+          </div>
+          <div className="bottom-section bg-secblack h-1/2 text-white m-3 rounded-2xl border-2 border-zinc-600 p-4 overflow-auto">
+            <div className="flex justify-evenly">
+              <button
+                className={`px-6 py-2 rounded-lg ${
+                  bottomView === "input" ? "bg-zinc-600" : "text-lctxt"
+                }`}
+                onClick={() => setBottomView("input")}
+              >
+                Input
+              </button>
+              <button
+                className={`px-6 py-2 rounded-lg ${
+                  bottomView === "output" ? "bg-zinc-600" : "text-lctxt"
+                }`}
+                onClick={() => setBottomView("output")}
+              >
+                Output
+              </button>
+              <button
+                className={`px-6 py-2 rounded-lg ${
+                  bottomView === "verdict" ? "bg-zinc-600" : "text-lctxt"
+                }`}
+                onClick={() => setBottomView("verdict")}
+              >
+                Verdict
+              </button>
+            </div>
+            <div className="w-full flex justify-center m-4">
+              {bottomView === "input" && (
+                <textarea
+                  name=""
+                  id=""
+                  className="w-4/5 h-64 bg-zinc-900"
+                ></textarea>
+              )}
+              {bottomView === "output" && (
+                <textarea
+                  name=""
+                  id=""
+                  value={output.output}
+                  className="w-4/5 h-64 bg-zinc-900 p-3"
+                ></textarea>
+              )}
+              {bottomView === "verdict" && (
+                <textarea
+                  name=""
+                  id=""
+                  className="w-4/5 h-64 bg-zinc-900 p-3"
+                ></textarea>
+              )}
+            </div>
           </div>
         </div>
       </div>

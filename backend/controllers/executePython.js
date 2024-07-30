@@ -12,7 +12,7 @@ if (!fs.existsSync(dirOutputs)) {
 const executePython = (filePath) => {
   // we need to starightforward return the outputs
   return new Promise((resolve, reject) => {
-    exec(`python ${filePath}`, (error, stdout, stderr) => {
+    exec(`python3 ${filePath}`, (error, stdout, stderr) => {
       if (error) return reject({ error, stderr });
       if (stderr) return reject({ error, stderr });
       resolve(stdout.trim());
