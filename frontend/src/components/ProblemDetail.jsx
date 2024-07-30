@@ -14,7 +14,7 @@ const ProblemDetail = () => {
   const [lang, setLang] = useState("cpp");
   const [code, setCode] = useState(`
 #include <iostream>
-
+using namespace std;
 int main() {
     cout << "Hello World!";
     return 0;
@@ -43,7 +43,7 @@ int main() {
   };
 
   const handleRun = async () => {
-    const apiurl = `${import.meta.env.VITE_APP_API_BASE_URL}/coderunner/run`;
+    const apiurl = `${import.meta.env.VITE_APP_API_BASE_URL}/runcode/run`;
     const res = await fetch(apiurl, {
       method: "POST",
       headers: {

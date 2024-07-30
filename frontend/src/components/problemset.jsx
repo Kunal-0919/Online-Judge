@@ -197,8 +197,8 @@ const Problemset = () => {
                     }
                     className={
                       index % 2 === 0
-                        ? "bg-priblack hover:cursor-pointer text-slate-300"
-                        : "terblack hover:cursor-pointer"
+                        ? "bg-priblack hover:cursor-pointer text-slate-400"
+                        : "terblack hover:cursor-pointer text-slate-400"
                     }
                   >
                     <td className="p-3">{index + 1}</td>
