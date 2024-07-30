@@ -4,8 +4,9 @@ import Editor from "react-simple-code-editor";
 import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-clike";
 import "prismjs/components/prism-javascript";
-import "prismjs/themes/prism.css";
-import "./resizeable.css";
+import "prismjs/themes/prism-dark.min.css"; //Example style, you can use another
+import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
+import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 
 const ProblemDetail = () => {
   const [problem, setProblem] = useState(null);
@@ -22,8 +23,6 @@ int main() {
   const problem_id = problemNameId.split("-").pop();
 
   const problemRef = useRef(null);
-  const topSectionRef = useRef(null);
-  const bottomSectionRef = useRef(null);
 
   const fetchProblem = async () => {
     try {
@@ -48,61 +47,23 @@ int main() {
     else return "text-red-400";
   };
 
-  useEffect(() => {
-    const handleMouseDown = (event, ref) => {
-      event.preventDefault();
-      const initialY = event.clientY;
-      const initialHeight = ref.current.getBoundingClientRect().height;
-      const handleMouseMove = (event) => {
-        const newHeight = initialHeight + (initialY - event.clientY);
-        ref.current.style.height = `${newHeight}px`;
-      };
-      const handleMouseUp = () => {
-        document.removeEventListener("mousemove", handleMouseMove);
-        document.removeEventListener("mouseup", handleMouseUp);
-      };
-      document.addEventListener("mousemove", handleMouseMove);
-      document.addEventListener("mouseup", handleMouseUp);
-    };
-
-    const addResizer = (ref, resizerClass) => {
-      if (ref.current) {
-        const resizer = ref.current.querySelector(resizerClass);
-        if (resizer) {
-          resizer.addEventListener("mousedown", (event) =>
-            handleMouseDown(event, ref)
-          );
-        }
-      }
-    };
-
-    addResizer(topSectionRef, ".top-resizer");
-    addResizer(bottomSectionRef, ".bottom-resizer");
-
-    return () => {
-      const removeResizer = (ref, resizerClass) => {
-        if (ref.current) {
-          const resizer = ref.current.querySelector(resizerClass);
-          if (resizer) {
-            resizer.removeEventListener("mousedown", (event) =>
-              handleMouseDown(event, ref)
-            );
-          }
-        }
-      };
-      removeResizer(topSectionRef, ".top-resizer");
-      removeResizer(bottomSectionRef, ".bottom-resizer");
-    };
-  }, []);
-
   return (
     <>
-      <div className="flex flex-1 h-screen">
+      <div className="flex flex-1 bg-priblack justify-center">
+        <button className="text-lctxt bg-secblack px-5 py-2 rounded-l-2xl transition duration-500 hover:shadow-sm m-1 hover:shadow-zinc-600 hover:bg-zinc-600">
+          <PlayArrowIcon />
+          Run
+        </button>
+        <button className="text-green-500 bg-secblack px-5 py-2 rounded-r-2xl transition duration-500 hover:shadow-sm m-1 hover:shadow-zinc-600 hover:bg-zinc-600">
+          <ArrowUpwardIcon />
+          Submit
+        </button>
+      </div>
+      <div className="flex flex-1 h-screen bg-priblack">
         <div
-          className="resizable bg-secblack text-white text-sm p-4 flex-1 overflow-auto"
+          className="bg-secblack m-3 text-white rounded-2xl border-2 border-zinc-600 text-sm p-4 flex-1 overflow-auto"
           ref={problemRef}
         >
-          <div className="resizer cursor-col-resize w-2 bg-gray-500 absolute right-0 top-0 h-full"></div>
           {problem ? (
             <>
               <h1 className="text-3xl font-bold mb-4">
@@ -132,11 +93,11 @@ int main() {
                         <div className="ml-2">
                           <p className="m-2">
                             <strong>Input:</strong>{" "}
-                            <span className="lctxt">{example.input}</span>
+                            <span className="text-lctxt">{example.input}</span>
                           </p>
                           <p className="m-2">
                             <strong>Output:</strong>{" "}
-                            <span className="lctxt">{example.output}</span>
+                            <span className="text-lctxt">{example.output}</span>
                           </p>
                         </div>
                       </li>
@@ -155,7 +116,9 @@ int main() {
                       <li key={index}>
                         <div className="ml-2">
                           <p className="m-2">
-                            <span className="lctxt">{constraint}</span>
+                            <span className="text-lctxt bg-zinc-600 rounded p-1 m-3">
+                              {constraint}
+                            </span>
                           </p>
                         </div>
                       </li>
@@ -171,12 +134,8 @@ int main() {
           )}
         </div>
         <div className="right-container flex-1 flex flex-col">
-          <div
-            className="top-section bg-secblack text-white p-4 overflow-auto relative"
-            ref={topSectionRef}
-          >
-            <div className="top-resizer cursor-row-resize w-full h-2 bg-gray-500 absolute bottom-0 left-0"></div>
-            <h1 className="text-xl">Code</h1>
+          <div className="top-section bg-secblack text-white m-3 rounded-2xl border-2 border-zinc-600 p-4 overflow-auto">
+            <h1 className="text-xl font-mono text-yellow-500">Code</h1>
             <Editor
               value={code}
               onValueChange={(code) => setCode(code)}
@@ -184,18 +143,13 @@ int main() {
               padding={10}
               style={{
                 fontFamily: '"Fira code", "Fira Mono", monospace',
-                fontSize: 15,
+                fontSize: 18,
                 outline: "none",
                 border: "none",
                 backgroundColor: "#282828",
-                height: "calc(100% - 40px)", // Adjust height to leave space for resizer
                 overflowY: "auto",
               }}
             />
-          </div>
-          <div className="bottom-section bg-secblack text-white p-4 overflow-auto">
-            {/* Bottom section content goes here */}
-            <p>Bottom section</p>
           </div>
         </div>
       </div>

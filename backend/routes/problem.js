@@ -86,29 +86,6 @@ router.post("/addproblem", authenticateToken, async (req, res) => {
   }
 });
 
-// Route to get a problem by ID (for example)
-router.get("/problem/:id", async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).send("Invalid ID format");
-    }
-
-    const problem = await Problem.findById(id);
-    if (!problem) {
-      return res.status(404).send("Problem not found");
-    }
-
-    return res.status(200).json(problem);
-  } catch (error) {
-    console.log("Error while retrieving problem:", error);
-    return res.status(500).send("Internal Server Error");
-  }
-});
-
-module.exports = router;
-
 // Get all problems route
 router.get("/problems", async (req, res) => {
   try {
@@ -132,7 +109,6 @@ router.get("/problems", async (req, res) => {
 router.delete("/delete/:problem_id", async (req, res) => {
   try {
     const problem_id = req.params.problem_id; // Extract problem_id from URL params
-    // ********************* we also need to see for the role of the person *****************************
     // Validate problem_id if necessary
     if (req.user.role != "admin") {
       return res
