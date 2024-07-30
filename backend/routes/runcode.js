@@ -21,7 +21,6 @@ const authenticateToken = require("../middlewares/authenticateToken");
 
 router.post("/run", authenticateToken, async (req, res) => {
   const { lang = "cpp", code } = req.body;
-  console.log(lang, code);
   if (!code) {
     return res.status(500).send("Empty Code");
   }

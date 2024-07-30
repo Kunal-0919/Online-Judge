@@ -173,7 +173,18 @@ int main() {
         </div>
         <div className="right-container flex-1 flex flex-col">
           <div className="top-section bg-secblack text-white m-3 rounded-2xl border-2 border-zinc-600 p-4 overflow-auto">
-            <h1 className="text-xl font-mono text-yellow-500">Code</h1>
+            <h1 className="text-xl font-mono text-white">Code</h1>
+            <select
+              name="Select Language"
+              className="p-2 border border-zinc-700 bg-zinc-800 text-zinc-100 rounded w-full"
+              onChange={(e) => {
+                setLang(e.target.value);
+              }}
+            >
+              <option value="cpp">C++</option>
+              <option value="py">Python</option>
+              <option value="js">Javascript</option>
+            </select>
             <Editor
               value={code}
               onValueChange={(code) => setCode(code)}
