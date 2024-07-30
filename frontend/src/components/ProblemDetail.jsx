@@ -18,7 +18,7 @@ const ProblemDetail = () => {
 #include <iostream>
 using namespace std;
 int main() {
-    cout << "Hello World!";
+    cout << "Hello World!" << endl;
     return 0;
 }
 `);
@@ -104,7 +104,7 @@ int main() {
       </div>
       <div className="flex flex-1 h-screen bg-priblack">
         <div
-          className="bg-secblack m-3 text-white rounded-2xl border-2 border-zinc-600 text-sm p-4 flex-1 overflow-auto"
+          className="bg-secblack m-3 text-white rounded-2xl border-2 border-zinc-600 text-sm p-9 flex-1 overflow-auto"
           ref={problemRef}
         >
           {problem ? (
@@ -119,14 +119,14 @@ int main() {
                   {problem.tag}
                 </span>
               </div>
-              <p className="mb-2 font-xl">{problem.problem_desc}</p>
-              <hr className="border-zinc-600 my-3" />
-              <h1 className="text-lg font-bold my-4">Input Format</h1>
-              <p>{problem.input_format}</p>
-              <h1 className="text-lg font-bold my-4">Output Format</h1>
-              <p>{problem.output_format}</p>
-              <hr className="border-zinc-600 my-3" />
-              <h1 className="text-lg font-bold">Example Cases</h1>
+              <p className="my-5 mx-2 text-lg">{problem.problem_desc}</p>
+              <hr className="border-zinc-600 my-5" />
+              <h1 className="text-2xl font-bold my-4">Input Format</h1>
+              <p className="text-lg">{problem.input_format}</p>
+              <h1 className="text-2xl font-bold my-4">Output Format</h1>
+              <p className="text-lg">{problem.output_format}</p>
+              <hr className="border-zinc-600 my-5" />
+              <h1 className="text-2xl font-bold">Example Cases</h1>
               <div>
                 {problem.example_cases.length > 0 ? (
                   <ul className="list- font-mono">
@@ -150,7 +150,7 @@ int main() {
                   <p>No example cases provided.</p>
                 )}
               </div>
-              <hr className="border-zinc-600 my-3" />
+              <hr className="border-zinc-600 my-5" />
               <h1 className="text-lg font-bold">Constraints</h1>
               <div>
                 {problem.constraints.length > 0 ? (
@@ -187,7 +187,7 @@ int main() {
             </h1>
             <select
               name="Select Language"
-              className="p-2 border my-3 border-zinc-700 bg-zinc-800 text-zinc-100 rounded w-full"
+              className="p-2 border my-5 border-zinc-700 bg-zinc-800 text-zinc-100 rounded w-full"
               onChange={(e) => {
                 setLang(e.target.value);
               }}
@@ -203,7 +203,7 @@ int main() {
               padding={10}
               style={{
                 fontFamily: '"Fira code", "Fira Mono", monospace',
-                fontSize: 12,
+                fontSize: 17,
                 outline: "none",
                 border: "none",
                 backgroundColor: "#282828",
@@ -217,7 +217,10 @@ int main() {
                 className={`px-6 py-2 rounded-lg ${
                   bottomView === "input" ? "bg-zinc-600" : "text-lctxt"
                 }`}
-                onClick={() => setBottomView("input")}
+                onClick={(e) => {
+                  setBottomView("input");
+                  e.preventDefault;
+                }}
               >
                 Input
               </button>
@@ -243,7 +246,12 @@ int main() {
                 <textarea
                   name=""
                   id=""
+                  value={input}
                   className="w-4/5 h-64 bg-zinc-900"
+                  onChange={(e) => {
+                    setInput(e.target.value);
+                    e.preventDefault;
+                  }}
                 ></textarea>
               )}
               {bottomView === "output" && (
