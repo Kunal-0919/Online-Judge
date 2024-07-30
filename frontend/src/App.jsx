@@ -7,6 +7,8 @@ import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import Userprofile from "./components/userProfile";
 import ProblemDetail from "./components/ProblemDetail";
+import Explore from "./components/Explore";
+import Contest from "./components/Contest";
 
 function App() {
   return (
@@ -18,6 +20,8 @@ function App() {
         <Route path="/addproblem" element={<AddProblemPage />} />
         <Route path="/problemset" element={<Problemset />} />
         <Route path="/profile" element={<Userprofile />} />
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/contest" element={<Contest />} />
         <Route path="/problem/:problemNameId" element={<ProblemDetail />} />
       </Routes>
     </>
