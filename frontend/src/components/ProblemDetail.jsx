@@ -1,15 +1,17 @@
 import { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Editor from "react-simple-code-editor";
 import { highlight, languages } from "prismjs/components/prism-core";
 import "prismjs/components/prism-clike";
 import "prismjs/components/prism-javascript";
-import "prismjs/themes/prism-dark.min.css"; //Example style, you can use another
+import "prismjs/themes/prism-funky.css"; //Example style, you can use another
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const ProblemDetail = () => {
   const [problem, setProblem] = useState(null);
+  const [lang, setLang] = useState("cpp");
   const [code, setCode] = useState(`
 #include <iostream>
 
@@ -18,6 +20,9 @@ int main() {
     return 0;
 }
 `);
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
+  const [error, setError] = useState("");
 
   const { problemNameId } = useParams();
   const problem_id = problemNameId.split("-").pop();
@@ -37,6 +42,31 @@ int main() {
     }
   };
 
+  const handleRun = async () => {
+    const apiurl = `${import.meta.env.VITE_APP_API_BASE_URL}/coderunner/run`;
+    const res = await fetch(apiurl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        code,
+        lang,
+      }),
+    });
+
+    if (!res.ok) {
+      const data = await res.json();
+      setError(data.message || "Login failed");
+      return;
+    }
+
+    const data = await res.json();
+    setOutput(data);
+    console.log(data);
+  };
+
   useEffect(() => {
     fetchProblem();
   }, [problem_id]);
@@ -49,15 +79,23 @@ int main() {
 
   return (
     <>
-      <div className="flex flex-1 bg-priblack justify-center">
-        <button className="text-lctxt bg-secblack px-5 py-2 rounded-l-2xl transition duration-500 hover:shadow-sm m-1 hover:shadow-zinc-600 hover:bg-zinc-600">
-          <PlayArrowIcon />
-          Run
-        </button>
-        <button className="text-green-500 bg-secblack px-5 py-2 rounded-r-2xl transition duration-500 hover:shadow-sm m-1 hover:shadow-zinc-600 hover:bg-zinc-600">
-          <ArrowUpwardIcon />
-          Submit
-        </button>
+      <div className="flex flex-1 bg-priblack items-center justify-between p-3">
+        <Link to="/problemset" className="text-lctxt">
+          <ArrowBackIcon /> Problems
+        </Link>
+        <div className="flex space-x-2">
+          <button
+            onClick={handleRun}
+            className="text-lctxt bg-secblack px-5 py-2 rounded-l-2xl transition duration-500 hover:shadow-sm m-1 hover:shadow-zinc-600 hover:bg-zinc-600"
+          >
+            <PlayArrowIcon />
+            Run
+          </button>
+          <button className="text-green-500 bg-secblack px-5 py-2 rounded-r-2xl transition duration-500 hover:shadow-sm m-1 hover:shadow-zinc-600 hover:bg-zinc-600">
+            <ArrowUpwardIcon />
+            Submit
+          </button>
+        </div>
       </div>
       <div className="flex flex-1 h-screen bg-priblack">
         <div
@@ -143,7 +181,7 @@ int main() {
               padding={10}
               style={{
                 fontFamily: '"Fira code", "Fira Mono", monospace',
-                fontSize: 18,
+                fontSize: 12,
                 outline: "none",
                 border: "none",
                 backgroundColor: "#282828",

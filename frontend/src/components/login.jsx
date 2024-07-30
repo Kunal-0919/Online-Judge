@@ -9,11 +9,11 @@ function Login() {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
-  const apiUrl = import.meta.env.REACT_APP_API_BASE_URL;
+  const apiUrl = import.meta.env.VITE_APP_API_BASE_URL;
 
   const handleLogin = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/auth/login`, {
+      const response = await fetch(`${apiUrl}/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
