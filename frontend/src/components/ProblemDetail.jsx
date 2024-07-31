@@ -175,7 +175,7 @@ int main() {
         </div>
         <div className="right-container flex-1 flex flex-col">
           <div className="top-section bg-sxecblack h-1/2 text-white m-3 rounded-2xl border-2 border-zinc-700 shadow-sm shadow-zinc-700 p-4 overflow-auto">
-            <h1 className="text-xl m-1 font-mono text-green-500">
+            <h1 className="text-md m-1 font-mono text-green-500">
               <span className="mx-2">
                 <DataObjectIcon />
               </span>
@@ -212,7 +212,7 @@ int main() {
               value={code}
               onChange={(value) => setCode(value)}
               options={{
-                fontSize: 12,
+                fontSize: 15,
                 automaticLayout: true,
                 theme: "vs-dark",
               }}

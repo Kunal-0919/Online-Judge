@@ -106,7 +106,7 @@ router.get("/problems", async (req, res) => {
 });
 
 // DELETE request to delete a problem by ID
-router.delete("/delete/:problem_id", async (req, res) => {
+router.delete("/delete/:problem_id", authenticateToken, async (req, res) => {
   try {
     const problem_id = req.params.problem_id; // Extract problem_id from URL params
     // Validate problem_id if necessary

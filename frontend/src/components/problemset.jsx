@@ -220,7 +220,10 @@ const Problemset = () => {
                     {isAdmin && (
                       <td className="p-3">
                         <button
-                          onClick={() => handleDelete(problem._id)}
+                          onClick={(e) => {
+                            e.stopPropagation;
+                            handleDelete(problem._id);
+                          }}
                           className="rounded-full bg-opacity-80 hover:opacity-50"
                         >
                           <DeleteIcon />
