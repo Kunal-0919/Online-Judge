@@ -193,8 +193,7 @@ using namespace std;
 int main() {
     cout << "Hello World!" << endl;
     return 0;
-}
-`);
+}`);
                 } else if (l === "py") {
                   setCode(`print("Hello")`);
                 } else if (l === "js") {
