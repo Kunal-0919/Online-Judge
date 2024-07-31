@@ -9,6 +9,7 @@ const Navbar = ({ backgroundcolor }) => {
 
   useEffect(() => {
     const token = Cookies.get("token");
+    console.log(token);
     if (token) {
       try {
         const decodedToken = jwtDecode(token); // Decode the token
@@ -22,6 +23,7 @@ const Navbar = ({ backgroundcolor }) => {
 
   // Retrieve authentication status from the cookie
   const isAuthenticated = !!Cookies.get("token");
+  // console.log(isAuthenticated);
 
   const bgColorClass = backgroundcolor === true ? "bg-secblack" : "bg-white";
   const textColorClass =

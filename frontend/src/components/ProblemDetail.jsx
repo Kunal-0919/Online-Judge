@@ -57,6 +57,7 @@ int main() {
       body: JSON.stringify({
         code,
         lang,
+        input,
       }),
     });
 
@@ -260,7 +261,7 @@ int main() {
                   name=""
                   id=""
                   value={input}
-                  className="w-4/5 h-64 p-3 bg-zinc-900"
+                  className="w-4/5 h-56 bg-zinc-900 p-3"
                   onChange={(e) => {
                     setInput(e.target.value);
                     e.preventDefault;
@@ -272,14 +273,16 @@ int main() {
                   name=""
                   id=""
                   value={output.output}
-                  className="w-4/5 h-64 bg-zinc-900 p-3"
+                  disabled={true}
+                  className="w-4/5 h-56 bg-zinc-900 p-3"
                 ></textarea>
               )}
               {bottomView === "verdict" && (
                 <textarea
                   name=""
                   id=""
-                  className="w-4/5 h-64 bg-zinc-900 p-3"
+                  disabled={true}
+                  className="w-4/5 h-56 bg-zinc-900 p-3"
                 ></textarea>
               )}
             </div>
