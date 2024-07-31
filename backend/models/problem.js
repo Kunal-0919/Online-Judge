@@ -33,10 +33,17 @@ const problemSchema = new mongoose.Schema({
     required: true,
   },
   constraints: {
-    type: [String], // Changed to an array of strings
+    type: [String],
     required: true,
   },
-  example_cases: [exampleCaseSchema], // Use the nested schema here
+  example_cases: {
+    type: [exampleCaseSchema],
+    required: true,
+  },
+  hidden_cases: {
+    type: [exampleCaseSchema],
+    required: true,
+  },
   created_at: {
     type: Date,
     default: Date.now,
@@ -52,7 +59,7 @@ const problemSchema = new mongoose.Schema({
     required: false,
   },
   topic_tags: {
-    type: Array, // Changed to an array of strings
+    type: Array,
     default: null,
     required: false,
   },

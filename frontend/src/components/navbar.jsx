@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode"; // Use the correct import
-
+import PersonPinIcon from "@mui/icons-material/PersonPin";
 const Navbar = ({ backgroundcolor }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
     const token = Cookies.get("token");
-    console.log(token);
     if (token) {
       try {
         const decodedToken = jwtDecode(token); // Decode the token
@@ -21,9 +20,7 @@ const Navbar = ({ backgroundcolor }) => {
     }
   }, []);
 
-  // Retrieve authentication status from the cookie
   const isAuthenticated = !!Cookies.get("token");
-  // console.log(isAuthenticated);
 
   const bgColorClass = backgroundcolor === true ? "bg-secblack" : "bg-white";
   const textColorClass =
@@ -99,7 +96,13 @@ const Navbar = ({ backgroundcolor }) => {
               Sign up
             </Link>
           </>
-        ) : null}
+        ) : (
+          <div className="text-white mr-5">
+            <Link to={"/profile"}>
+              <PersonPinIcon />
+            </Link>
+          </div>
+        )}
       </div>
     </nav>
   );

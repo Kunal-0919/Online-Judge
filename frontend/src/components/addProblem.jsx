@@ -1,9 +1,6 @@
-// AddProblemPage.js
 import React, { useState } from "react";
 import Navbar from "./Navbar";
 import BottomNavAddProblem from "./BottomNavAddProblem";
-import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 function AddProblemPage() {
   const [problem_name, setProblemName] = useState("");
@@ -11,6 +8,8 @@ function AddProblemPage() {
   const [input_format, setInputFormat] = useState("");
   const [output_format, setOutputFormat] = useState("");
   const [constraints, setConstraints] = useState([""]);
+  const [numberOfExampleTC, setNumberOfExampleTC] = useState(1);
+  const [exampleCases, setExampleCases] = useState([""]);
 
   const handleAddConstraint = () => {
     if (
@@ -41,17 +40,40 @@ function AddProblemPage() {
     setOutputFormat(e.target.value);
   };
 
+  const handleNumberChange = (e) => {
+    const value = Math.max(1, Math.min(4, parseInt(e.target.value, 10) || 1));
+    setNumberOfExampleTC(value);
+    setExampleCases(
+      Array.from({ length: value }, (_, i) => exampleCases[i] || "")
+    );
+  };
+
+  const handleExampleCaseChange = (index, value) => {
+    const newExampleCases = [...exampleCases];
+    newExampleCases[index] = value;
+    setExampleCases(newExampleCases);
+  };
+
   const handleReset = () => {
     setProblemName("");
     setProblemDesc("");
     setInputFormat("");
     setOutputFormat("");
     setConstraints([""]);
+    setNumberOfExampleTC(1);
+    setExampleCases([""]);
   };
 
   const handleSubmit = () => {
-    // Handle submit functionality here
-    // For now, it does nothing
+    if (
+      exampleCases.length !== numberOfExampleTC ||
+      exampleCases.includes("")
+    ) {
+      alert("Please enter all example test cases.");
+    } else {
+      // Handle submit functionality here
+      // For now, it does nothing
+    }
   };
 
   return (
@@ -125,7 +147,37 @@ function AddProblemPage() {
                 Delete Last Constraint
               </button>
             </span>
+            <div className="my-4">
+              <h1 className="text-3xl font-sans font-bold text-white mb-4 text-center">
+                Add Example cases
+              </h1>
+              <input
+                type="number"
+                value={numberOfExampleTC}
+                onChange={handleNumberChange}
+                className="block p-2 border border-zinc-700 bg-zinc-800 text-zinc-100 mb-4 pl-5 font-sans rounded-lg"
+                min={1}
+                max={4}
+              />
+              {exampleCases.map((example, index) => (
+                <textarea
+                  key={index}
+                  className="block p-2 border border-zinc-700 bg-zinc-800 text-zinc-100 mb-4 w-full h-20 pl-5 font-sans rounded-lg"
+                  placeholder={`Example Case ${index + 1}`}
+                  value={example}
+                  onChange={(e) =>
+                    handleExampleCaseChange(index, e.target.value)
+                  }
+                ></textarea>
+              ))}
+            </div>
           </div>
+        </div>
+        <div className="w-full my-8 bg-secblack shadow-xl rounded-lg text-center mx-4 mt-4 md:mt-0 h-auto">
+          {/* section for adding hidden cases */}
+          <h1 className="text-3xl font-sans font-bold text-white my-4 text-center">
+            Add Hidden Test Cases
+          </h1>
         </div>
         <BottomNavAddProblem onReset={handleReset} onSubmit={handleSubmit} />
       </div>
