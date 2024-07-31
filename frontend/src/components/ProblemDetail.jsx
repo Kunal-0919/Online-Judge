@@ -1,11 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import Loading from "./Loading";
-import Editor from "react-simple-code-editor";
-import { highlight, languages } from "prismjs/components/prism-core";
-import "prismjs/components/prism-clike";
-import "prismjs/components/prism-javascript";
-import "prismjs/themes/prism-funky.css"; //Example style, you can use another
+import Editor from "@monaco-editor/react";
 import ArrowUpwardIcon from "@mui/icons-material/ArrowUpward";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -211,17 +207,14 @@ int main() {
               <option value="js">Javascript</option>
             </select>
             <Editor
+              height="70vh"
+              language={lang}
               value={code}
-              onValueChange={(code) => setCode(code)}
-              highlight={(code) => highlight(code, languages.js)}
-              padding={10}
-              style={{
-                fontFamily: '"Fira code", "Fira Mono", monospace',
+              onChange={(value) => setCode(value)}
+              options={{
                 fontSize: 12,
-                outline: "none",
-                border: "none",
-                backgroundColor: "#282828",
-                overflowY: "auto",
+                automaticLayout: true,
+                theme: "vs-dark",
               }}
             />
           </div>
