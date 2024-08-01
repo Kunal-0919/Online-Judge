@@ -106,10 +106,7 @@ function AddProblemPage() {
           constraints,
           example_cases,
           tag: tag[0],
-          hidden_cases: hidden_cases.map((h) => ({
-            input: h.input, // Remove extra whitespace
-            output: h.output, // Remove extra whitespace
-          })),
+          hidden_cases,
         }),
         headers: { "Content-Type": "application/json" },
         credentials: "include",
