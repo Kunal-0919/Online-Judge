@@ -2,6 +2,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const Problem = require("../models/problem.js");
+const User = require("../models/user.js");
 const generateFile = require("../controllers/generateFile");
 const generateInputFile = require("../controllers/generateInputFile");
 const executeCpp = require("../controllers/executeCpp");
@@ -54,13 +55,25 @@ router.post("/run", authenticateToken, async (req, res) => {
 router.post("/submit", authenticateToken, async (req, res) => {
   try {
     const { code, problem_id, lang } = req.body;
-    const username = req.user.username;
+    const username = req.user.email;
+    const user = await User.findOne({ username });
+    console.log(user);
+    if (!user) {
+      return res.status(404).json({ message: "User not found " });
+    }
+
+    user.submission_count++;
+    let alreadysolved = false;
+    if (!user.problems_solved.includes(problem_id)) {
+      alreadysolved = true;
+    }
     const filePath = generateFile(lang, code);
     // now we need to retrieve the problem with the problem_id
     const problem = await Problem.findById(problem_id);
     if (!problem) {
       return res.status(404).json({ message: "Problem not found" });
     }
+    problem.submission_count++;
     for (let i = 0; i < problem.example_cases.length; i++) {
       const inputPath = await generateInputFile(problem.example_cases[i].input);
       let output;
@@ -74,6 +87,7 @@ router.post("/submit", authenticateToken, async (req, res) => {
       if (output === problem.example_cases[i].output) {
         continue;
       } else {
+        problem.save();
         return res.json({
           message: `Failed at Example testcase `,
           verdict: "Wrong Answer",
@@ -93,12 +107,20 @@ router.post("/submit", authenticateToken, async (req, res) => {
       if (output === problem.hidden_cases[i].output) {
         continue;
       } else {
+        problem.save();
         return res.json({
           message: `Failed at testcase ${i + 1}`,
           verdict: "Wrong Answer",
         });
       }
     }
+    problem.accepted_count++;
+    if (alreadysolved) {
+      user.problems_solved.push(problem_id);
+      user.problems_solved_count++;
+    }
+    user.save();
+    problem.save();
     res.json({
       verdict: "Accepted",
       message: "All test cases passed",

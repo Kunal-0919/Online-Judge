@@ -107,6 +107,7 @@ const Problemset = () => {
   };
 
   const getAcceptancePercentage = (submissionCount, acceptanceCount) => {
+    console.log(submissionCount);
     if (submissionCount === 0) return "N/A";
     return ((acceptanceCount / submissionCount) * 100).toFixed(2) + "%";
   };
@@ -215,7 +216,7 @@ const Problemset = () => {
                     <td className="p-3">
                       {getAcceptancePercentage(
                         problem.submission_count,
-                        problem.acceptance_count
+                        problem.accepted_count
                       )}
                     </td>
                     {isAdmin && (
