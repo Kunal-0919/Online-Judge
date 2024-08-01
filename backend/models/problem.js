@@ -21,7 +21,7 @@ const problemSchema = new mongoose.Schema({
     required: true,
   },
   tag: {
-    type: [String], // Change from String to [String] to allow multiple tags
+    type: String, // Change from String to [String] to allow multiple tags
   },
   input_format: {
     type: String,

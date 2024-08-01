@@ -35,6 +35,7 @@ int main() {
         { method: "GET", credentials: "include" }
       );
       const data = await res.json();
+      console.log(data);
       setProblem(data.problem);
     } catch (error) {
       console.error("Error fetching problem:", error);
@@ -125,23 +126,33 @@ int main() {
               <h1 className="text-2xl font-bold">Example Cases</h1>
               <div>
                 {problem.example_cases.length > 0 ? (
-                  <ul className="list- font-mono">
+                  <div>
                     {problem.example_cases.map((example, index) => (
-                      <li key={index} className="my-10">
+                      <div key={index} className="my-10">
                         <strong>Example {index + 1}:</strong>
                         <div className="ml-2">
                           <p className="m-2">
-                            <strong>Input:</strong>{" "}
-                            <span className="text-lctxt">{example.input}</span>
+                            <strong>Input:</strong>
+                            <textarea
+                              value={example.input}
+                              disabled={true}
+                              style={{ resize: "none" }}
+                              className="w-full h-24 bg-zinc-900 text-red-300 p-3 mt-2 rounded"
+                            />
                           </p>
                           <p className="m-2">
-                            <strong>Output:</strong>{" "}
-                            <span className="text-lctxt">{example.output}</span>
+                            <strong>Output:</strong>
+                            <textarea
+                              value={example.output}
+                              disabled={true}
+                              style={{ resize: "none" }}
+                              className="w-full h-24 bg-zinc-900 p-3 mt-2 rounded text-green-500"
+                            />
                           </p>
                         </div>
-                      </li>
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 ) : (
                   <p>No example cases provided.</p>
                 )}
@@ -155,7 +166,7 @@ int main() {
                       <li key={index}>
                         <div className="ml-2">
                           <p className="m-2">
-                            <span className="text-lctxt bg-zinc-600 rounded p-1 m-3">
+                            <span className="text-zinc-100 bg-zinc-700 rounded p-1 m-3">
                               {constraint}
                             </span>
                           </p>
@@ -170,7 +181,6 @@ int main() {
             </>
           ) : (
             <Loading />
-            //
           )}
         </div>
         <div className="right-container flex-1 flex flex-col">
@@ -211,7 +221,7 @@ int main() {
               value={code}
               onChange={(value) => setCode(value)}
               options={{
-                fontSize: 15,
+                fontSize: 12,
                 automaticLayout: true,
                 theme: "vs-dark",
               }}
@@ -225,7 +235,7 @@ int main() {
                 }`}
                 onClick={(e) => {
                   setBottomView("input");
-                  e.preventDefault;
+                  e.preventDefault();
                 }}
               >
                 Input
@@ -252,11 +262,12 @@ int main() {
                 <textarea
                   name=""
                   id=""
+                  style={{ resize: "none" }}
                   value={input}
                   className="w-4/5 h-56 bg-zinc-900 p-3"
                   onChange={(e) => {
                     setInput(e.target.value);
-                    e.preventDefault;
+                    e.preventDefault();
                   }}
                 ></textarea>
               )}
@@ -264,8 +275,9 @@ int main() {
                 <textarea
                   name=""
                   id=""
-                  value={output.output}
+                  value={output}
                   disabled={true}
+                  style={{ resize: "none" }}
                   className="w-4/5 h-56 bg-zinc-900 p-3"
                 ></textarea>
               )}
@@ -273,6 +285,7 @@ int main() {
                 <textarea
                   name=""
                   id=""
+                  style={{ resize: "none" }}
                   disabled={true}
                   className="w-4/5 h-56 bg-zinc-900 p-3"
                 ></textarea>

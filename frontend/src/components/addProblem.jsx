@@ -12,9 +12,9 @@ function AddProblemPage() {
   const [example_cases, setExampleCases] = useState([
     { input: "", output: "" },
   ]);
-  const [numberOfHiddenTC, setNumberOfHiddenTC] = useState(1);
+  const [numberOfHiddenTC, setNumberOfHiddenTC] = useState(4);
   const [hidden_cases, setHiddenCases] = useState([{ input: "", output: "" }]);
-  const [tag, setTag] = useState(["array"]);
+  const [tag, setTag] = useState("");
 
   const handleAddConstraint = () => {
     if (
@@ -63,7 +63,7 @@ function AddProblemPage() {
   };
 
   const handleNumberOfHiddenTCChange = (e) => {
-    const value = Math.max(1, Math.min(4, parseInt(e.target.value, 10) || 1));
+    const value = Math.max(1, Math.min(20, parseInt(e.target.value, 10) || 4));
     setNumberOfHiddenTC(value);
     setHiddenCases(
       Array.from(
@@ -71,14 +71,12 @@ function AddProblemPage() {
         (_, i) => hidden_cases[i] || { input: "", output: "" }
       )
     );
-    console.log("Number of hidden test cases:", value); // Debugging
   };
 
   const handleHiddenCaseChange = (index, field, value) => {
     const newHiddenCases = [...hidden_cases];
     newHiddenCases[index] = { ...newHiddenCases[index], [field]: value };
     setHiddenCases(newHiddenCases);
-    console.log("Updated hidden cases:", newHiddenCases); // Debugging
   };
 
   const handleReset = () => {
@@ -129,13 +127,36 @@ function AddProblemPage() {
     }
   };
 
+  const getColorOfTag = () => {
+    if (tag[0] === "easy") {
+      return "text-green-400";
+    } else if (tag[0] === "medium") {
+      return "text-yellow-400";
+    } else if (tag == "hard") {
+      return "text-red-400";
+    }
+    return "text-lctxt";
+  };
+
   return (
     <>
       <Navbar backgroundcolor={true} />
-      <div className="font-mono bg-priblack pt-16 relative min-h-screen p-36">
-        <div className="flex flex-col md:flex-row w-full">
-          <div className="w-full md:w-1/2 p-8 bg-secblack shadow-xl rounded-lg text-center mx-4 mt-4 md:mt-0 h-auto">
-            <h1 className="text-3xl font-sans font-bold text-white mb-4 text-center">
+      <div className="font-mono bg-priblack pt-16 relative min-h-screen p-20">
+        <div className="flex mb-12 flex-col md:flex-row w-full">
+          <div className="w-1/2 md:w-1/2 p-8 bg-secblack shadow-xl rounded-lg text-center mx-4 mt-4 md:mt-0 h-auto">
+            <label htmlFor="" className="font-sans text-white mx-3 text-lg">
+              Add Problem Tag
+            </label>
+            <select
+              className={`font-sans bg-secblack ${getColorOfTag()} border-zinc-700 border-2 p-2 rounded-md`}
+              onChange={(e) => setTag([e.target.value])}
+            >
+              <option value="lctxt">-- Select Tag --</option>
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+            <h1 className="text-3xl mt-2 font-sans font-bold text-white mb-4 text-center">
               Add Problem Description
             </h1>
             <input
@@ -172,7 +193,7 @@ function AddProblemPage() {
               onChange={handleOutputChange}
             ></textarea>
           </div>
-          <div className="w-full md:w-1/2 p-8 bg-secblack shadow-xl rounded-lg text-center mx-4 mt-4 md:mt-0 h-auto">
+          <div className="w-1/2 md:w-1/2 p-8 bg-secblack shadow-xl rounded-lg text-center mx-4 mt-4 md:mt-0 h-auto">
             <h1 className="text-3xl font-sans font-bold text-white mb-4 text-center">
               Add Constraints
             </h1>
@@ -235,23 +256,25 @@ function AddProblemPage() {
             </div>
           </div>
         </div>
-        <div className="w-full my-8 p-5 bg-secblack shadow-xl rounded-lg text-center mx-4 mt-4 md:mt-0 h-auto">
+        <div className="w-auto  p-5 bg-secblack shadow-xl rounded-lg text-center mx-4 md:mt-0 h-auto">
           {/* section for adding hidden cases */}
           <h1 className="text-3xl font-sans font-bold text-white my-4 text-center">
             Add Hidden Test Cases
           </h1>
+
           <input
             type="number"
+            placeholder="Add Number of Testcases"
             value={numberOfHiddenTC}
             onChange={handleNumberOfHiddenTCChange}
             className="block p-2 m-5 border border-zinc-700 bg-zinc-800 text-zinc-100 mb-4 pl-5 font-sans rounded-lg"
-            min={1}
-            max={4}
+            min={4}
+            max={20}
           />
           {hidden_cases.map((hidden, index) => (
-            <div key={index} className="mb-4">
+            <div key={index} className="mb-9">
               <textarea
-                className="block p-2 m-5 border border-zinc-700 bg-zinc-800 text-zinc-100 h-20 pl-5 font-sans rounded-lg"
+                className="block p-2 w-full border border-zinc-700 bg-zinc-800 text-zinc-100 h-20 pl-5 font-sans rounded-lg"
                 placeholder={`Hidden Case ${index + 1} Input`}
                 value={hidden.input}
                 onChange={(e) =>
@@ -259,7 +282,7 @@ function AddProblemPage() {
                 }
               ></textarea>
               <textarea
-                className="block p-2 m-5 border border-zinc-700 bg-zinc-800 text-zinc-100 h-20 pl-5 font-sans rounded-lg"
+                className="block p-2 w-full border border-zinc-700 bg-zinc-800 text-zinc-100 h-20 pl-5 font-sans rounded-lg"
                 placeholder={`Hidden Case ${index + 1} Output`}
                 value={hidden.output}
                 onChange={(e) =>
