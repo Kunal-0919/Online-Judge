@@ -74,6 +74,7 @@ router.post("/addproblem", authenticateToken, async (req, res) => {
       tag,
       topic_tags,
       created_at: new Date(),
+      hidden_cases,
     });
 
     // Respond with success

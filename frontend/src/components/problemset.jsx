@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate, useLocation } from "react-router-dom";
+import Loading from "./Loading";
 
 const Problemset = () => {
   const location = useLocation(); // Get current location
@@ -122,7 +123,7 @@ const Problemset = () => {
       <div className="min-h-screen bg-priblack text-white p-4">
         <h1 className="text-3xl font-bold mb-4">Problems Dashboard</h1>
         {loading ? (
-          <p>Loading...</p>
+          <Loading />
         ) : error ? (
           <p className="text-red-400">{error}</p>
         ) : (

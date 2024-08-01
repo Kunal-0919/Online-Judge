@@ -1,6 +1,7 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
+const Problem = require("../models/problem.js");
 const generateFile = require("../controllers/generateFile");
 const generateInputFile = require("../controllers/generateInputFile");
 const executeCpp = require("../controllers/executeCpp");
@@ -45,11 +46,66 @@ router.post("/run", authenticateToken, async (req, res) => {
       inputPath,
     });
   } catch (error) {
-    console.log("Error while running code: ", error.message);
+    console.log("Error while running code: ", error);
     res.status(500).json({ error: "Server error", details: error });
   }
 });
 
-router.post("/submit", (req, res) => {});
+router.post("/submit", authenticateToken, async (req, res) => {
+  try {
+    const { code, problem_id, lang } = req.body;
+    const username = req.user.username;
+    const filePath = generateFile(lang, code);
+    // now we need to retrieve the problem with the problem_id
+    const problem = await Problem.findById(problem_id);
+    if (!problem) {
+      return res.status(404).json({ message: "Problem not found" });
+    }
+    for (let i = 0; i < problem.example_cases.length; i++) {
+      const inputPath = await generateInputFile(problem.example_cases[i].input);
+      let output;
+      if (lang === "cpp") {
+        output = await executeCpp(filePath, inputPath);
+      } else if (lang == "py") {
+        output = await executePython(filePath, inputPath);
+      } else if (lang == "js") {
+        output = await executeJS(filePath, inputPath);
+      }
+      if (output === problem.example_cases[i].output) {
+        continue;
+      } else {
+        return res.json({
+          message: `Failed at Example testcase `,
+          verdict: "Wrong Answer",
+        });
+      }
+    }
+    for (i = 0; i < problem.hidden_cases.length; i++) {
+      const inputPath = await generateInputFile(problem.hidden_cases[i].input);
+      let output;
+      if (lang === "cpp") {
+        output = await executeCpp(filePath, inputPath);
+      } else if (lang == "py") {
+        output = await executePython(filePath, inputPath);
+      } else if (lang == "js") {
+        output = await executeJS(filePath, inputPath);
+      }
+      if (output === problem.hidden_cases[i].output) {
+        continue;
+      } else {
+        return res.json({
+          message: `Failed at testcase ${i + 1}`,
+          verdict: "Wrong Answer",
+        });
+      }
+    }
+    res.json({
+      verdict: "Accepted",
+      message: "All test cases passed",
+    });
+  } catch (error) {
+    console.log("Error while submitting code: ", error);
+  }
+});
 
 module.exports = router;

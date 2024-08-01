@@ -10,7 +10,7 @@ import DataObjectIcon from "@mui/icons-material/DataObject";
 const ProblemDetail = () => {
   const [problem, setProblem] = useState(null);
   const [lang, setLang] = useState("cpp");
-  const [code, setCode] = useState(`#include <iostream>
+  const [code, setCode] = useState(`#include <bits/stdc++.h>
 using namespace std;
 int main() {
     cout << "Hello World!" << endl;
@@ -22,7 +22,7 @@ int main() {
   const [output, setOutput] = useState("");
   const [error, setError] = useState("");
   const [verdict, setVerdict] = useState("");
-
+  const [verdictMessage, setVerdictMessage] = useState("");
   const { problemNameId } = useParams();
   const problem_id = problemNameId.split("-").pop();
 
@@ -39,7 +39,36 @@ int main() {
       setProblem(data.problem);
     } catch (error) {
       console.error("Error fetching problem:", error);
+      alert(error);
     }
+  };
+  const handleSubmit = async () => {
+    setBottomView("verdict");
+    const apiurl = `${import.meta.env.VITE_APP_API_BASE_URL}/runcode/submit`;
+    const res = await fetch(apiurl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({
+        code,
+        lang,
+        problem_id,
+      }),
+    });
+
+    if (!res.ok) {
+      const data = await res.json();
+      setError(data.message || "Login failed");
+      alert(data.message);
+      return;
+    }
+
+    const data = await res.json();
+    setVerdict(data.verdict);
+    setVerdictMessage(data.message);
+    console.log(data);
   };
 
   const handleRun = async () => {
@@ -65,7 +94,7 @@ int main() {
     }
 
     const data = await res.json();
-    setOutput(data);
+    setOutput(data.output);
     console.log(data);
   };
 
@@ -77,6 +106,12 @@ int main() {
     if (problem.tag === "easy") return "text-green-400";
     else if (problem.tag === "medium") return "text-yellow-400";
     else return "text-red-400";
+  };
+
+  const getverdictColor = () => {
+    if (verdict === "Accepted") return "text-green-500";
+    else if (verdict === "Wrong Answer") return "text-red-400";
+    else return "text-yellow-500";
   };
 
   return (
@@ -93,7 +128,10 @@ int main() {
             <PlayArrowIcon />
             Run
           </button>
-          <button className="text-green-500 bg-secblack px-5 py-2 rounded-r-2xl transition duration-500 hover:shadow-sm m-1 hover:shadow-zinc-600 hover:bg-zinc-600">
+          <button
+            onClick={handleSubmit}
+            className="text-green-500 bg-secblack px-5 py-2 rounded-r-2xl transition duration-500 hover:shadow-sm m-1 hover:shadow-zinc-600 hover:bg-zinc-600"
+          >
             <ArrowUpwardIcon />
             Submit
           </button>
@@ -221,7 +259,7 @@ int main() {
               value={code}
               onChange={(value) => setCode(value)}
               options={{
-                fontSize: 12,
+                fontSize: 14,
                 automaticLayout: true,
                 theme: "vs-dark",
               }}
@@ -282,13 +320,13 @@ int main() {
                 ></textarea>
               )}
               {bottomView === "verdict" && (
-                <textarea
-                  name=""
-                  id=""
+                <div
+                  className={`w-4/5 h-56 bg-zinc-900 p-3 ${getverdictColor()} text-3xl overflow-y-auto`}
                   style={{ resize: "none" }}
-                  disabled={true}
-                  className="w-4/5 h-56 bg-zinc-900 p-3"
-                ></textarea>
+                >
+                  <p className="font-bold">{verdict}</p>
+                  <p className="text-lg">{verdictMessage}</p>
+                </div>
               )}
             </div>
           </div>

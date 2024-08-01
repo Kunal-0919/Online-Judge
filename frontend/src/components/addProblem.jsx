@@ -140,12 +140,12 @@ function AddProblemPage() {
       <Navbar backgroundcolor={true} />
       <div className="font-mono bg-priblack pt-16 relative min-h-screen p-20">
         <div className="flex mb-12 flex-col md:flex-row w-full">
-          <div className="w-1/2 md:w-1/2 p-8 bg-secblack shadow-xl rounded-lg text-center mx-4 mt-4 md:mt-0 h-auto">
-            <label htmlFor="" className="font-sans text-white mx-3 text-lg">
+          <div className="w-1/2 md:w-1/2 p-8 bg-secblack font-bold shadow-xl rounded-lg text-center mx-4 mt-4 md:mt-0 h-auto">
+            <span htmlFor="" className="font-sans text-3xl text-white mx-3">
               Add Problem Tag
-            </label>
+            </span>
             <select
-              className={`font-sans bg-secblack ${getColorOfTag()} border-zinc-700 border-2 p-2 rounded-md`}
+              className={`font-sans bg-secblack ${getColorOfTag()} border-zinc-700 ml-4 border-2 p-2 rounded-md`}
               onChange={(e) => setTag([e.target.value])}
             >
               <option value="lctxt">-- Select Tag --</option>
