@@ -171,6 +171,7 @@ function AddProblemPage() {
             <textarea
               name="problem_desc"
               id="problem_desc"
+              style={{ resize: "none" }}
               className="block p-2 border border-zinc-700 bg-zinc-800 text-zinc-100 mb-4 w-full h-36 pl-5 font-sans  rounded-lg"
               placeholder="Add Problem Statement"
               value={problem_desc}
@@ -179,6 +180,7 @@ function AddProblemPage() {
             <textarea
               name="input_format"
               id="input_format"
+              style={{ resize: "none" }}
               className="block p-2 border border-zinc-700 bg-zinc-800 text-zinc-100 mb-4 w-full h-36 pl-5 font-sans  rounded-lg"
               placeholder="Add Input Format"
               value={input_format}
@@ -187,6 +189,7 @@ function AddProblemPage() {
             <textarea
               name="output_format"
               id="output_format"
+              style={{ resize: "none" }}
               className="block p-2 border border-zinc-700 bg-zinc-800 text-zinc-100 mb-4 w-full h-36 pl-5 font-sans  rounded-lg"
               placeholder="Add Output Format"
               value={output_format}
@@ -239,6 +242,7 @@ function AddProblemPage() {
                     className="block p-2 border border-zinc-700 bg-zinc-800 text-zinc-100 w-full h-20 pl-5 font-sans rounded-lg"
                     placeholder={`Example Case ${index + 1} Input`}
                     value={example.input}
+                    style={{ resize: "none" }}
                     onChange={(e) =>
                       handleExampleCaseChange(index, "input", e.target.value)
                     }
@@ -246,6 +250,7 @@ function AddProblemPage() {
                   <textarea
                     className="block p-2 border border-zinc-700 bg-zinc-800 text-zinc-100 w-full h-20 pl-5 font-sans rounded-lg"
                     placeholder={`Example Case ${index + 1} Output`}
+                    style={{ resize: "none" }}
                     value={example.output}
                     onChange={(e) =>
                       handleExampleCaseChange(index, "output", e.target.value)
@@ -256,7 +261,7 @@ function AddProblemPage() {
             </div>
           </div>
         </div>
-        <div className="w-auto  p-5 bg-secblack shadow-xl rounded-lg text-center mx-4 md:mt-0 h-auto">
+        <div className="w-auto  p-5 bg-secblack shadow-xl rounded-lg text-center mx-4 md:mt-0 h-1/3">
           {/* section for adding hidden cases */}
           <h1 className="text-3xl font-sans font-bold text-white my-4 text-center">
             Add Hidden Test Cases
@@ -277,6 +282,7 @@ function AddProblemPage() {
                 className="block p-2 w-full border border-zinc-700 bg-zinc-800 text-zinc-100 h-20 pl-5 font-sans rounded-lg"
                 placeholder={`Hidden Case ${index + 1} Input`}
                 value={hidden.input}
+                style={{ resize: "none" }}
                 onChange={(e) =>
                   handleHiddenCaseChange(index, "input", e.target.value)
                 }
@@ -285,6 +291,7 @@ function AddProblemPage() {
                 className="block p-2 w-full border border-zinc-700 bg-zinc-800 text-zinc-100 h-20 pl-5 font-sans rounded-lg"
                 placeholder={`Hidden Case ${index + 1} Output`}
                 value={hidden.output}
+                style={{ resize: "none" }}
                 onChange={(e) =>
                   handleHiddenCaseChange(index, "output", e.target.value)
                 }
