@@ -21,8 +21,7 @@ const problemSchema = new mongoose.Schema({
     required: true,
   },
   tag: {
-    type: String,
-    enum: ["easy", "medium", "hard"],
+    type: [String], // Change from String to [String] to allow multiple tags
   },
   input_format: {
     type: String,
@@ -59,8 +58,8 @@ const problemSchema = new mongoose.Schema({
     required: false,
   },
   topic_tags: {
-    type: Array,
-    default: null,
+    type: [String], // Update this if needed
+    default: [],
     required: false,
   },
 });

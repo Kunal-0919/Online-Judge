@@ -29,6 +29,7 @@ router.post("/addproblem", authenticateToken, async (req, res) => {
       example_cases,
       tag,
       topic_tags,
+      hidden_cases,
     } = req.body;
 
     if (
@@ -39,7 +40,8 @@ router.post("/addproblem", authenticateToken, async (req, res) => {
         output_format &&
         constraints &&
         example_cases &&
-        tag
+        tag &&
+        hidden_cases
       )
     ) {
       return res.status(400).send("Enter all the fields");
@@ -136,7 +138,7 @@ router.get("/:problem_id", async (req, res) => {
     const problem_id = req.params.problem_id; // Extract problem_id from URL params
 
     // Fetch problem details from the database
-    const problem = await Problem.findById(problem_id);
+    const problem = await Problem.findById(problem_id).select("-hidden_cases");
     if (!problem) {
       return res.status(404).json({ message: "Problem not found" });
     }

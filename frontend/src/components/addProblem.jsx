@@ -9,7 +9,12 @@ function AddProblemPage() {
   const [output_format, setOutputFormat] = useState("");
   const [constraints, setConstraints] = useState([""]);
   const [numberOfExampleTC, setNumberOfExampleTC] = useState(1);
-  const [exampleCases, setExampleCases] = useState([""]);
+  const [example_cases, setExampleCases] = useState([
+    { input: "", output: "" },
+  ]);
+  const [numberOfHiddenTC, setNumberOfHiddenTC] = useState(1);
+  const [hidden_cases, setHiddenCases] = useState([{ input: "", output: "" }]);
+  const [tag, setTag] = useState(["array"]);
 
   const handleAddConstraint = () => {
     if (
@@ -44,14 +49,36 @@ function AddProblemPage() {
     const value = Math.max(1, Math.min(4, parseInt(e.target.value, 10) || 1));
     setNumberOfExampleTC(value);
     setExampleCases(
-      Array.from({ length: value }, (_, i) => exampleCases[i] || "")
+      Array.from(
+        { length: value },
+        (_, i) => example_cases[i] || { input: "", output: "" }
+      )
     );
   };
 
-  const handleExampleCaseChange = (index, value) => {
-    const newExampleCases = [...exampleCases];
-    newExampleCases[index] = value;
+  const handleExampleCaseChange = (index, field, value) => {
+    const newExampleCases = [...example_cases];
+    newExampleCases[index] = { ...newExampleCases[index], [field]: value };
     setExampleCases(newExampleCases);
+  };
+
+  const handleNumberOfHiddenTCChange = (e) => {
+    const value = Math.max(1, Math.min(4, parseInt(e.target.value, 10) || 1));
+    setNumberOfHiddenTC(value);
+    setHiddenCases(
+      Array.from(
+        { length: value },
+        (_, i) => hidden_cases[i] || { input: "", output: "" }
+      )
+    );
+    console.log("Number of hidden test cases:", value); // Debugging
+  };
+
+  const handleHiddenCaseChange = (index, field, value) => {
+    const newHiddenCases = [...hidden_cases];
+    newHiddenCases[index] = { ...newHiddenCases[index], [field]: value };
+    setHiddenCases(newHiddenCases);
+    console.log("Updated hidden cases:", newHiddenCases); // Debugging
   };
 
   const handleReset = () => {
@@ -61,25 +88,51 @@ function AddProblemPage() {
     setOutputFormat("");
     setConstraints([""]);
     setNumberOfExampleTC(1);
-    setExampleCases([""]);
+    setExampleCases([{ input: "", output: "" }]);
+    setNumberOfHiddenTC(1);
+    setHiddenCases([{ input: "", output: "" }]);
   };
 
-  const handleSubmit = () => {
-    if (
-      exampleCases.length !== numberOfExampleTC ||
-      exampleCases.includes("")
-    ) {
-      alert("Please enter all example test cases.");
-    } else {
-      // Handle submit functionality here
-      // For now, it does nothing
+  const apiUrl = import.meta.env.VITE_APP_API_BASE_URL;
+  const handleSubmit = async () => {
+    console.log("Hidden cases before submission:", hidden_cases); // Debugging
+
+    try {
+      const res = await fetch(`${apiUrl}/problem/addproblem`, {
+        method: "POST",
+        body: JSON.stringify({
+          problem_name,
+          problem_desc,
+          input_format,
+          output_format,
+          constraints,
+          example_cases,
+          tag: tag[0],
+          hidden_cases: hidden_cases.map((h) => ({
+            input: h.input, // Remove extra whitespace
+            output: h.output, // Remove extra whitespace
+          })),
+        }),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        alert("An error occurred while adding the problem. Please try again.");
+      } else {
+        const data = await res.json();
+        console.log("Problem added successfully:", data);
+      }
+    } catch (error) {
+      console.error("Error adding problem:", error);
+      alert("An error occurred while adding the problem. Please try again.");
     }
   };
 
   return (
     <>
       <Navbar backgroundcolor={true} />
-      <div className="font-mono bg-priblack pt-16 relative min-h-screen pb-36">
+      <div className="font-mono bg-priblack pt-16 relative min-h-screen p-36">
         <div className="flex flex-col md:flex-row w-full">
           <div className="w-full md:w-1/2 p-8 bg-secblack shadow-xl rounded-lg text-center mx-4 mt-4 md:mt-0 h-auto">
             <h1 className="text-3xl font-sans font-bold text-white mb-4 text-center">
@@ -144,12 +197,12 @@ function AddProblemPage() {
                 onClick={handleDeleteLastConstraint}
                 className="block w-full border-2 border-white text-white font-sans bg-danger px-2 py-3 rounded-md transition duration-200 hover:rounded-full hover:shadow-2xl hover:shadow-black"
               >
-                Delete Last Constraint
+                Delete Last Constraint{" "}
               </button>
             </span>
             <div className="my-4">
               <h1 className="text-3xl font-sans font-bold text-white mb-4 text-center">
-                Add Example cases
+                Add Example Cases
               </h1>
               <input
                 type="number"
@@ -159,25 +212,62 @@ function AddProblemPage() {
                 min={1}
                 max={4}
               />
-              {exampleCases.map((example, index) => (
-                <textarea
-                  key={index}
-                  className="block p-2 border border-zinc-700 bg-zinc-800 text-zinc-100 mb-4 w-full h-20 pl-5 font-sans rounded-lg"
-                  placeholder={`Example Case ${index + 1}`}
-                  value={example}
-                  onChange={(e) =>
-                    handleExampleCaseChange(index, e.target.value)
-                  }
-                ></textarea>
+              {example_cases.map((example, index) => (
+                <div key={index} className="mb-4">
+                  <textarea
+                    className="block p-2 border border-zinc-700 bg-zinc-800 text-zinc-100 w-full h-20 pl-5 font-sans rounded-lg"
+                    placeholder={`Example Case ${index + 1} Input`}
+                    value={example.input}
+                    onChange={(e) =>
+                      handleExampleCaseChange(index, "input", e.target.value)
+                    }
+                  ></textarea>
+                  <textarea
+                    className="block p-2 border border-zinc-700 bg-zinc-800 text-zinc-100 w-full h-20 pl-5 font-sans rounded-lg"
+                    placeholder={`Example Case ${index + 1} Output`}
+                    value={example.output}
+                    onChange={(e) =>
+                      handleExampleCaseChange(index, "output", e.target.value)
+                    }
+                  ></textarea>
+                </div>
               ))}
             </div>
           </div>
         </div>
-        <div className="w-full my-8 bg-secblack shadow-xl rounded-lg text-center mx-4 mt-4 md:mt-0 h-auto">
+        <div className="w-full my-8 p-5 bg-secblack shadow-xl rounded-lg text-center mx-4 mt-4 md:mt-0 h-auto">
           {/* section for adding hidden cases */}
           <h1 className="text-3xl font-sans font-bold text-white my-4 text-center">
             Add Hidden Test Cases
           </h1>
+          <input
+            type="number"
+            value={numberOfHiddenTC}
+            onChange={handleNumberOfHiddenTCChange}
+            className="block p-2 m-5 border border-zinc-700 bg-zinc-800 text-zinc-100 mb-4 pl-5 font-sans rounded-lg"
+            min={1}
+            max={4}
+          />
+          {hidden_cases.map((hidden, index) => (
+            <div key={index} className="mb-4">
+              <textarea
+                className="block p-2 m-5 border border-zinc-700 bg-zinc-800 text-zinc-100 h-20 pl-5 font-sans rounded-lg"
+                placeholder={`Hidden Case ${index + 1} Input`}
+                value={hidden.input}
+                onChange={(e) =>
+                  handleHiddenCaseChange(index, "input", e.target.value)
+                }
+              ></textarea>
+              <textarea
+                className="block p-2 m-5 border border-zinc-700 bg-zinc-800 text-zinc-100 h-20 pl-5 font-sans rounded-lg"
+                placeholder={`Hidden Case ${index + 1} Output`}
+                value={hidden.output}
+                onChange={(e) =>
+                  handleHiddenCaseChange(index, "output", e.target.value)
+                }
+              ></textarea>
+            </div>
+          ))}
         </div>
         <BottomNavAddProblem onReset={handleReset} onSubmit={handleSubmit} />
       </div>
