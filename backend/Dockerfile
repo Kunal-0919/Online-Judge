@@ -1,37 +1,22 @@
-# base image -> node, alpine is very lightweight version of node.js
+# Use a lightweight Node.js image as the base image
 FROM node:18-alpine
-# base img
 
-# Directory that will be created inside your container
-# WORKDIR /the/workdir/path
+# Set the working directory inside the container
 WORKDIR /app
-# working dir
 
+# Update package index and install g++
+RUN apk update && apk add --no-cache g++ python3 py3-pip
 
-# installed gcc
-RUN apk update && apk add --no-cache g++
+# Copy only the package.json and package-lock.json files and install dependencies
+# This allows Docker to cache this layer when package files don't change
+COPY package*.json ./
+RUN npm install
 
-# Copy only the package.json and package-lock.json files and install dependencies.
-# This allows Docker to cache this layer when package files don't change.
-COPY package*.json .
-
-
-# COPY source dest -> <host> and <container>
-# all the code will be pasted inside the /app
-# all the folders and files inside the
-# current directory will be posted inside the 
-# working directory of the container
-RUN npm i
-
-
+# Copy all the code from the current directory to the working directory in the container
 COPY . .
-# or COPY . /app
 
-
+# Expose port 8000
 EXPOSE 8000
 
-# Now we need to run first 
-# to start the server
-# CMD and entrypoint are the same
-# cmd is your last and main command, there can't be multiple cmd or entrypoint
+# Define the command to run the application
 CMD ["node", "server.js"]
