@@ -133,6 +133,7 @@ router.delete("/delete/:problem_id", authenticateToken, async (req, res) => {
         user.problems_solved = user.problems_solved.filter(
           (id) => id !== problem_id
         );
+        user.problems_solved_count = user.problems_solved.length;
         await user.save();
       }
     }
