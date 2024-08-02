@@ -194,26 +194,55 @@ const Problemset = () => {
                   <tr
                     key={problem._id}
                     id={problem._id}
-                    onClick={() =>
-                      handleProblemClick(problem._id, problem.problem_name)
-                    }
+                    // onClick={() =>
+                    //   handleProblemClick(problem._id, problem.problem_name)
+                    // }
                     className={
                       index % 2 === 0
                         ? "bg-priblack hover:cursor-pointer text-slate-400"
                         : "terblack hover:cursor-pointer text-slate-400"
                     }
                   >
-                    <td className="p-3">{index + 1}</td>
-                    <td className="p-3 hover:text-white">
+                    <td
+                      className="p-3"
+                      onClick={() =>
+                        handleProblemClick(problem._id, problem.problem_name)
+                      }
+                    >
+                      {index + 1}
+                    </td>
+                    <td
+                      className="p-3 hover:text-white"
+                      onClick={() =>
+                        handleProblemClick(problem._id, problem.problem_name)
+                      }
+                    >
                       {problem.problem_name}
                     </td>
-                    <td className="p-1">
+                    <td
+                      className="p-1"
+                      onClick={() =>
+                        handleProblemClick(problem._id, problem.problem_name)
+                      }
+                    >
                       <p className={`${getTagColor(problem.tag)} p-1`}>
                         {problem.tag}
                       </p>
                     </td>
-                    <td className="p-3">{problem.topic_tags.join(", ")}</td>
-                    <td className="p-3">
+                    <td
+                      className="p-3"
+                      onClick={() =>
+                        handleProblemClick(problem._id, problem.problem_name)
+                      }
+                    >
+                      {problem.topic_tags.join(", ")}
+                    </td>
+                    <td
+                      className="p-3"
+                      onClick={() =>
+                        handleProblemClick(problem._id, problem.problem_name)
+                      }
+                    >
                       {getAcceptancePercentage(
                         problem.submission_count,
                         problem.accepted_count

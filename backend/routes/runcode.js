@@ -68,7 +68,6 @@ router.post("/submit", authenticateToken, async (req, res) => {
       alreadysolved = true;
     }
     const filePath = generateFile(lang, code);
-    // now we need to retrieve the problem with the problem_id
     const problem = await Problem.findById(problem_id);
     if (!problem) {
       return res.status(404).json({ message: "Problem not found" });

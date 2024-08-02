@@ -9,17 +9,26 @@ if (!fs.existsSync(dirOutputs)) {
   fs.mkdirSync(dirOutputs, { recursive: true });
 }
 
-const executePython = (filePath, inputPath) => {
+const executePython = (filePath, inputPath, timeout = 5000) => {
   return new Promise((resolve, reject) => {
     // Read the input file
     fs.readFile(inputPath, "utf8", (err, input) => {
       if (err) return reject({ error: err, stderr: err.message });
 
-      const child = exec(`python3 ${filePath}`, (error, stdout, stderr) => {
-        if (error) return reject({ error, stderr });
-        if (stderr) return reject({ error, stderr });
-        resolve(stdout.trim());
-      });
+      const child = exec(
+        `python3 ${filePath}`,
+        { timeout },
+        (error, stdout, stderr) => {
+          if (error) {
+            if (error.signal === "SIGTERM") {
+              return reject({ error: "Time Limit Exceeded", stderr: "" });
+            }
+            return reject({ error, stderr });
+          }
+          if (stderr) return reject({ error, stderr });
+          resolve(stdout.trim());
+        }
+      );
 
       // Write the input to the child process's stdin
       child.stdin.write(input);
