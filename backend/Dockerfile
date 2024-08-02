@@ -4,8 +4,8 @@ FROM node:18-alpine
 # Set the working directory inside the container
 WORKDIR /app
 
-# Update package index and install g++
-RUN apk update && apk add --no-cache g++ python3 py3-pip
+# Update package index and install g++, python, java, and rust
+RUN apk update && apk add --no-cache g++ python3 py3-pip openjdk11-jre rust
 
 # Copy only the package.json and package-lock.json files and install dependencies
 # This allows Docker to cache this layer when package files don't change
