@@ -32,7 +32,7 @@ const executeCpp = (filePath, inputPath, timeout = 5000) => {
       exec(runCommand, { timeout }, (error, stdout, stderr) => {
         if (error) {
           if (error.signal === "SIGTERM") {
-            return reject({ error: "Time Limit Exceeded", stderr: "" });
+            return resolve("Time Limit Exceeded");
           }
           return reject({ error, stderr });
         }

@@ -87,6 +87,7 @@ router.post("/submit", authenticateToken, async (req, res) => {
         continue;
       } else {
         problem.save();
+        user.save();
         return res.json({
           message: `Failed at Example testcase `,
           verdict: "Wrong Answer",
@@ -105,6 +106,12 @@ router.post("/submit", authenticateToken, async (req, res) => {
       }
       if (output === problem.hidden_cases[i].output) {
         continue;
+      } else if (output.includes("Time Limit Exceeded")) {
+        return res.json({
+          message: `Failed at testcase ${i + 1}`,
+          verdict: "Time Limit Exceeded",
+          output: output,
+        });
       } else {
         problem.save();
         return res.json({
@@ -126,6 +133,7 @@ router.post("/submit", authenticateToken, async (req, res) => {
     });
   } catch (error) {
     console.log("Error while submitting code: ", error);
+    res.status(500).json({ error: "Server error", details: error });
   }
 });
 
