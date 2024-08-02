@@ -2,4 +2,5 @@
 2. Edit profile options.
 3. Protected routing
 4. Deletion
-5. AWS
+5. unique usernames should only be there
+6. AWS

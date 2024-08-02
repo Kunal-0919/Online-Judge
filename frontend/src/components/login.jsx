@@ -1,15 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+import Navbar from "./Navbar";
 import LogoComponent from "./LogoComponent";
 import { Link } from "react-router-dom";
-import Navbar from "./Navbar";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
-
+  const navigate = useNavigate();
   const apiUrl = import.meta.env.VITE_APP_API_BASE_URL;
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   const handleLogin = async () => {
     try {
@@ -35,6 +44,7 @@ function Login() {
       setSuccessMessage(data.message);
       setEmail("");
       setPassword("");
+      navigate("/"); // Redirect to the dashboard after successful login
     } catch (error) {
       console.error("Error logging in:", error);
       setError("Internal Server Error. Please try again later.");
