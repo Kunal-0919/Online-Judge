@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Problem = require("../models/problem.js");
+const User = require("../models/user.js");
 const jwt = require("jsonwebtoken");
 const authenticateToken = require("../middlewares/authenticateToken.js");
 const mongoose = require("mongoose");
@@ -112,6 +113,7 @@ router.get("/problems", async (req, res) => {
 router.delete("/delete/:problem_id", authenticateToken, async (req, res) => {
   try {
     const problem_id = req.params.problem_id; // Extract problem_id from URL params
+    console.log(problem_id);
     // Validate problem_id if necessary
     if (req.user.role != "admin") {
       return res
@@ -121,9 +123,18 @@ router.delete("/delete/:problem_id", authenticateToken, async (req, res) => {
         );
     }
     const result = await Problem.findByIdAndDelete(problem_id);
-
     if (!result) {
       return res.status(404).json({ message: "Problem not found" });
+    }
+    const users = await User.find({});
+    for (let i = 0; i < users.length; i++) {
+      const user = users[i];
+      if (user.problems_solved.includes(problem_id)) {
+        user.problems_solved = user.problems_solved.filter(
+          (id) => id !== problem_id
+        );
+        await user.save();
+      }
     }
 
     res.status(200).json({ message: "Problem deleted successfully" });

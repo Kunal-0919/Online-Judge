@@ -52,8 +52,10 @@ const Problemset = () => {
   }, [location]); // Add location as a dependency
 
   const handleDelete = async (problemId) => {
+    console.log(problemId);
     if (window.confirm("Are you sure you want to delete this problem?")) {
       try {
+        console.log({});
         const response = await fetch(
           `${
             import.meta.env.VITE_APP_API_BASE_URL
@@ -63,6 +65,7 @@ const Problemset = () => {
             headers: {
               "Content-Type": "application/json",
             },
+            credentials: "include",
           }
         );
         if (!response.ok) {
@@ -107,7 +110,6 @@ const Problemset = () => {
   };
 
   const getAcceptancePercentage = (submissionCount, acceptanceCount) => {
-    console.log(submissionCount);
     if (submissionCount === 0) return "N/A";
     return ((acceptanceCount / submissionCount) * 100).toFixed(2) + "%";
   };
@@ -251,8 +253,7 @@ const Problemset = () => {
                     {isAdmin && (
                       <td className="p-3">
                         <button
-                          onClick={(e) => {
-                            e.stopPropagation;
+                          onClick={() => {
                             handleDelete(problem._id);
                           }}
                           className="rounded-full bg-opacity-80 hover:opacity-50"

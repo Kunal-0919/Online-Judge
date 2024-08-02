@@ -27,6 +27,9 @@ router.post("/run", authenticateToken, async (req, res) => {
   if (!code) {
     return res.status(500).send("Empty Code");
   }
+  if (!input) {
+    return res.status(500).send("Empty Input");
+  }
 
   try {
     const filePath = await generateFile(lang, code);
@@ -91,8 +94,8 @@ router.post("/submit", authenticateToken, async (req, res) => {
           verdict: "Time Limit Exceeded",
         });
       } else {
-        problem.save();
-        user.save();
+        await problem.save();
+        await user.save();
         return res.json({
           message: `Failed at Example testcase `,
           verdict: "Wrong Answer",
@@ -123,7 +126,7 @@ router.post("/submit", authenticateToken, async (req, res) => {
           output: output,
         });
       } else {
-        problem.save();
+        await problem.save();
         return res.json({
           message: `Failed at testcase ${i + 1}`,
           verdict: "Wrong Answer",
@@ -135,8 +138,8 @@ router.post("/submit", authenticateToken, async (req, res) => {
       user.problems_solved.push(problem_id);
       user.problems_solved_count++;
     }
-    user.save();
-    problem.save();
+    await user.save();
+    await problem.save();
     res.json({
       verdict: "Accepted",
       message: "All test cases passed",
