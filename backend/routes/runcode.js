@@ -85,6 +85,11 @@ router.post("/submit", authenticateToken, async (req, res) => {
       }
       if (output === problem.example_cases[i].output) {
         continue;
+      } else if (output === "Time Limit Exceeded") {
+        return res.json({
+          message: `TLE at Example testcase`,
+          verdict: "Time Limit Exceeded",
+        });
       } else {
         problem.save();
         user.save();
@@ -106,6 +111,11 @@ router.post("/submit", authenticateToken, async (req, res) => {
       }
       if (output === problem.hidden_cases[i].output) {
         continue;
+      } else if (output === "Time Limit Exceeded") {
+        return res.json({
+          message: `TLE at Example testcase`,
+          verdict: "Time Limit Exceeded",
+        });
       } else if (output.includes("Time Limit Exceeded")) {
         return res.json({
           message: `Failed at testcase ${i + 1}`,
