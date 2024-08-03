@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import LogoComponent from "./LogoComponent";
 import { Link } from "react-router-dom";
 import Navbar from "./Navbar";
+import Cookies from "js-cookie"; // Add this line if you're using js-cookie for handling cookies
 
 function Signup() {
   const [username, setUsername] = useState(""); // Added state for username
@@ -11,6 +13,14 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (token) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   const handleSignup = async () => {
     try {
@@ -40,6 +50,7 @@ function Signup() {
         setLastName("");
         setEmail("");
         setPassword("");
+        navigate("/");
       } else {
         setError(data.message || "Registration failed");
       }
