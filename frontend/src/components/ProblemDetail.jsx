@@ -244,14 +244,17 @@ int main() {
 }`);
                 } else if (l === "py") {
                   setCode(`print("Hello")`);
-                } else if (l === "js") {
-                  setCode(`console.log("Hello");`);
+                } else if (l === "rs") {
+                  setCode(`fn main() {
+    println!("Hello World!");
+}
+`);
                 }
               }}
             >
               <option value="cpp">C++</option>
               <option value="py">Python</option>
-              <option value="js">Javascript</option>
+              <option value="rs">Rust</option>
             </select>
             <Editor
               height="70vh"

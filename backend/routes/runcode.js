@@ -7,7 +7,7 @@ const generateFile = require("../controllers/generateFile");
 const generateInputFile = require("../controllers/generateInputFile");
 const executeCpp = require("../controllers/executeCpp");
 const executePython = require("../controllers/executePython");
-const executeJS = require("../controllers/executeJS");
+const executeRust = require("../controllers/executeRust.js");
 const authenticateToken = require("../middlewares/authenticateToken");
 
 // Middleware to verify token and extract user role
@@ -39,8 +39,11 @@ router.post("/run", authenticateToken, async (req, res) => {
       output = await executeCpp(filePath, inputPath);
     } else if (lang == "py") {
       output = await executePython(filePath, inputPath);
-    } else if (lang == "js") {
-      output = await executeJS(filePath, inputPath);
+    } else if (lang == "rs") {
+      output = await executeRust(filePath, inputPath);
+      console.log(output);
+    } else {
+      res.status(500).send("Please use the specified languages.");
     }
 
     res.json({
@@ -83,8 +86,10 @@ router.post("/submit", authenticateToken, async (req, res) => {
         output = await executeCpp(filePath, inputPath);
       } else if (lang == "py") {
         output = await executePython(filePath, inputPath);
-      } else if (lang == "js") {
-        output = await executeJS(filePath, inputPath);
+      } else if (lang == "rs") {
+        output = await executeRust(filePath, inputPath);
+      } else {
+        res.status(500).send("Please use the specified languages.");
       }
       if (output === problem.example_cases[i].output) {
         continue;
@@ -111,8 +116,10 @@ router.post("/submit", authenticateToken, async (req, res) => {
         output = await executeCpp(filePath, inputPath);
       } else if (lang == "py") {
         output = await executePython(filePath, inputPath);
-      } else if (lang == "js") {
-        output = await executeJS(filePath, inputPath);
+      } else if (lang == "rs") {
+        output = await executeRust(filePath, inputPath);
+      } else {
+        res.status(500).send("Please use the specified languages.");
       }
       if (output === problem.hidden_cases[i].output) {
         continue;
