@@ -27,7 +27,7 @@ const UserInfo = ({ user }) => {
             Edit Profile
           </button>
           {user.email && (
-            <p className="mb-2">
+            <p className="mb-4">
               <span className="mr-2">
                 <EmailIcon />
               </span>
@@ -35,22 +35,15 @@ const UserInfo = ({ user }) => {
             </p>
           )}
           {user.role && (
-            <p className="mb-2">
+            <p className="mb-4">
               <span className="mr-2">
                 <AdminPanelSettingsIcon />
               </span>
               {user.role}
             </p>
           )}
-          {user.birthday ? (
-            <p className="mb-2">
-              {new Date(user.birthday).toLocaleDateString()}
-            </p>
-          ) : (
-            <p className="hidden">N/A</p>
-          )}
           {user.organization ? (
-            <p className="mb-2">
+            <p className="mb-4">
               <span className="mr-2">
                 <CorporateFareIcon />
               </span>
@@ -59,7 +52,7 @@ const UserInfo = ({ user }) => {
           ) : (
             <span className="hidden">N/A</span>
           )}
-          <p className="mb-2">
+          <p className="mb-4">
             {user.github ? (
               <a href={user.github} target="_blank" rel="noopener noreferrer">
                 <span className="mr-2">
@@ -71,7 +64,7 @@ const UserInfo = ({ user }) => {
               <span className="hidden">N/A</span>
             )}
           </p>
-          <p className="mb-2">
+          <p className="mb-4">
             {user.linkedin ? (
               <a href={user.linkedin} target="_blank" rel="noopener noreferrer">
                 <span className="mr-2">

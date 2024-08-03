@@ -60,7 +60,7 @@ router.post("/submit", authenticateToken, async (req, res) => {
     const { code, problem_id, lang } = req.body;
     const username = req.user.email;
     const user = await User.findOne({ username });
-    console.log(user);
+    // console.log(user);
     if (!user) {
       return res.status(404).json({ message: "User not found " });
     }

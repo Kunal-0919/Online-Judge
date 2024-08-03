@@ -32,7 +32,7 @@ router.post("/addproblem", authenticateToken, async (req, res) => {
       topic_tags,
       hidden_cases,
     } = req.body;
-
+    console.log(req.body);
     if (
       !(
         problem_name &&
