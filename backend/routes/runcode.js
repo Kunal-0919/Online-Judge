@@ -61,8 +61,10 @@ router.post("/run", authenticateToken, async (req, res) => {
 router.post("/submit", authenticateToken, async (req, res) => {
   try {
     const { code, problem_id, lang } = req.body;
-    const username = req.user.email;
-    const user = await User.findOne({ username });
+    const email = req.user.email;
+    const user = await User.findOne({ email });
+    console.log(email);
+    console.log(user);
     // console.log(user);
     if (!user) {
       return res.status(404).json({ message: "User not found " });

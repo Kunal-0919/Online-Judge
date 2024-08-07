@@ -43,6 +43,7 @@ int main() {
     }
   };
   const handleSubmit = async () => {
+    console.log("Hello");
     setBottomView("verdict");
     const apiurl = `${import.meta.env.VITE_APP_API_BASE_URL}/runcode/submit`;
     const res = await fetch(apiurl, {
@@ -123,14 +124,14 @@ int main() {
         <div className="flex space-x-2">
           <button
             onClick={handleRun}
-            className="text-lctxt bg-secblack px-5 py-2 rounded-l-2xl transition duration-500 hover:shadow-sm m-1 hover:shadow-zinc-600 hover:bg-zinc-600"
+            className="text-lctxt bg-secblack px-5 py-2 rounded-l-2xl transition duration-500 hover:shadow-sm hover:shadow-zinc-600 hover:bg-zinc-600"
           >
             <PlayArrowIcon />
             Run
           </button>
           <button
             onClick={handleSubmit}
-            className="text-green-500 bg-secblack px-5 py-2 rounded-r-2xl transition duration-500 hover:shadow-sm m-1 hover:shadow-zinc-600 hover:bg-zinc-600"
+            className="text-green-500 bg-secblack px-5 py-2 rounded-r-2xl transition duration-500 hover:shadow-sm hover:shadow-zinc-600 hover:bg-zinc-600"
           >
             <ArrowUpwardIcon />
             Submit
@@ -138,10 +139,7 @@ int main() {
         </div>
       </div>
       <div className="flex flex-1 h-screen bg-priblack">
-        <div
-          className="bg-secblack m-3 text-white rounded-2xl border-2 border-zinc-700 shadow-md shadow-zinc-700 text-sm p-9 flex-1 overflow-auto"
-          ref={problemRef}
-        >
+        <div className="bg-secblack m-3 shadow-lg shadow-black text-zinc-200 rounded-2xl text-sm p-9 flex-1 overflow-auto">
           {problem ? (
             <>
               <h1 className="text-3xl font-bold mb-4">
@@ -222,7 +220,7 @@ int main() {
           )}
         </div>
         <div className="right-container flex-1 flex flex-col">
-          <div className="top-section bg-sxecblack h-1/2 text-white m-3 rounded-2xl border-2 border-zinc-700 shadow-sm shadow-zinc-700 p-4 overflow-auto">
+          <div className="top-section bg-secblack h-1/2 text-white m-3 rounded-2xl shadow-2xl shadow-black p-4 overflow-auto">
             <h1 className="text-md m-1 font-mono text-green-500">
               <span className="mx-2">
                 <DataObjectIcon />
@@ -268,7 +266,7 @@ int main() {
               }}
             />
           </div>
-          <div className="bottom-section bg-secblack h-1/2 text-white m-3 rounded-2xl border-2 border-zinc-700 shadow-sm pb-80 shadow-zinc-700 p-4 overflow-auto">
+          <div className="bottom-section bg-secblack h-1/2 text-white m-3 rounded-2xl shadow-2xl pb-80 shadow-black p-4 overflow-auto">
             <div className="flex justify-evenly">
               <button
                 className={`px-6 py-2 rounded-lg ${

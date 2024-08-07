@@ -62,7 +62,6 @@ function Signup() {
 
   return (
     <>
-      <Navbar backgroundcolor={false} />
       <div className="font-serif flex items-center justify-center min-h-screen bg-cover bg-center">
         <div className="relative z-10 w-full max-w-md mx-4 md:mx-auto p-8 transition duration-300 bg-white shadow-xl hover:shadow-black rounded-lg text-center hover:shadow-2xl">
           <div className="flex justify-center mb-1">
