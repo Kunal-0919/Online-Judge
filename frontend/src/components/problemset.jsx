@@ -5,6 +5,8 @@ import { jwtDecode } from "jwt-decode";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate, useLocation } from "react-router-dom";
 import Loading from "./Loading";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 
 const Problemset = () => {
   const location = useLocation(); // Get current location
@@ -15,13 +17,17 @@ const Problemset = () => {
   const [filterTopic, setFilterTopic] = useState("");
   const [search, setSearch] = useState("");
   const [isAdmin, setIsAdmin] = useState(false);
+  const [pageCount, setPageCount] = useState(1);
+  const [problemsCount, setProblemsCount] = useState(0);
 
   const navigate = useNavigate();
 
   const fetchProblems = async () => {
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_APP_API_BASE_URL}/problem/problems`,
+        `${
+          import.meta.env.VITE_APP_API_BASE_URL
+        }/problem/problems?page=${pageCount}`,
         { method: "GET", credentials: "include" }
       );
       if (!response.ok) {
@@ -29,6 +35,7 @@ const Problemset = () => {
       }
       const data = await response.json();
       setProblems(data.problems);
+      setProblemsCount(data.problemsCount);
     } catch (error) {
       setError("Error fetching problems");
     } finally {
@@ -49,7 +56,7 @@ const Problemset = () => {
         console.error("Error decoding token:", error);
       }
     }
-  }, [location]); // Add location as a dependency
+  }, [location, pageCount]); // Add location and pageCount as dependencies
 
   const handleDelete = async (problemId) => {
     console.log(problemId);
@@ -82,6 +89,23 @@ const Problemset = () => {
     console.log(id);
     const formattedName = problemName.toLowerCase().replace(/ /g, "-");
     navigate(`/problem/${formattedName}-${id}`);
+  };
+
+  // Handle page decrease
+  const handlePageCountDecrease = () => {
+    // console.log("hello");
+    if (pageCount > 1) {
+      setPageCount(pageCount - 1);
+    }
+  };
+
+  // Handle page increase
+  const handlePageCountIncrease = () => {
+    // console.log("hello");
+    const maxPageCount = Math.ceil(problemsCount / 10);
+    if (pageCount < maxPageCount) {
+      setPageCount(pageCount + 1);
+    }
   };
 
   const filteredProblems = problems.filter((problem) => {
@@ -170,7 +194,7 @@ const Problemset = () => {
                 </select>
               </div>
             </div>
-            <table className="min-w-full bg-zinc-800 border-none rounded-lg">
+            <table className="min-w-full bg-zinc-800 border-none rounded-lg transition duration-150 hover:shadow-2xl hover:shadow-black">
               <thead>
                 <tr className="bg-priblack text-left border-b-2 border-zinc-800 md-2">
                   <th className="p-2" id="number">
@@ -196,9 +220,6 @@ const Problemset = () => {
                   <tr
                     key={problem._id}
                     id={problem._id}
-                    // onClick={() =>
-                    //   handleProblemClick(problem._id, problem.problem_name)
-                    // }
                     className={
                       index % 2 === 0
                         ? "bg-priblack hover:cursor-pointer text-slate-400"
@@ -253,9 +274,7 @@ const Problemset = () => {
                     {isAdmin && (
                       <td className="p-3">
                         <button
-                          onClick={() => {
-                            handleDelete(problem._id);
-                          }}
+                          onClick={() => handleDelete(problem._id)}
                           className="rounded-full bg-opacity-80 hover:opacity-50"
                         >
                           <DeleteIcon />
@@ -266,6 +285,21 @@ const Problemset = () => {
                 ))}
               </tbody>
             </table>
+            <div className="">
+              <button
+                className="duration-200 transition hover:shadow-black hover:shadow-lg bg-terblack rounded-xl shadow-md shadow-black text-sm m-2 p-2"
+                onClick={handlePageCountDecrease}
+              >
+                <ArrowBackIosIcon />
+              </button>
+              <span className="m-2">{pageCount}</span>
+              <button
+                className="duration-200 transition hover:shadow-black hover:shadow-lg bg-terblack rounded-xl shadow-md shadow-black text-sm m-2 p-2 "
+                onClick={handlePageCountIncrease}
+              >
+                <ArrowForwardIosIcon />
+              </button>
+            </div>
           </div>
         )}
       </div>

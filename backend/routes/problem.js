@@ -93,15 +93,30 @@ router.post("/addproblem", authenticateToken, async (req, res) => {
 // Get all problems route
 router.get("/problems", async (req, res) => {
   try {
-    const problems = await Problem.find({});
-    if (!problems) {
-      return res.send("Problems Not Found").status(404);
+    // Extract the pageCount from the query parameters
+    const page = parseInt(req.query.page) || 1; // Default to 1 if not provided
+    const pageCount = 3; // Fixed number of problems to display per page
+
+    // Calculate the number of items to skip
+    const skip = (page - 1) * pageCount;
+    const allproblems = await Problem.find({});
+    const problemsCount = allproblems.length;
+    // Find problems with pagination
+    const problems = await Problem.find({}).skip(skip).limit(pageCount);
+
+    // If no problems are found
+    if (!problems || problems.length === 0) {
+      return res.status(404).send("Problems Not Found");
     }
 
+    // Send response with retrieved problems
     return res.json({
       message: "Successfully retrieved problems",
       success: true,
       problems,
+      problemsCount,
+      currentPage: page,
+      pageSize: pageCount,
     });
   } catch (error) {
     console.log("Error while retrieving problems", error);
