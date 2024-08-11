@@ -7,10 +7,10 @@ const jwt = require("jsonwebtoken");
 // Register route
 router.post("/register", async (req, res) => {
   try {
-    const { username, firstname, lastname, email, password } = req.body;
+    const { firstname, lastname, email, password } = req.body;
 
     // Validate input fields
-    if (!username || !firstname || !lastname || !email || !password) {
+    if (!firstname || !lastname || !email || !password) {
       return res.status(400).send("Enter all required information");
     }
 
@@ -27,7 +27,6 @@ router.post("/register", async (req, res) => {
 
     // Create user in DB
     const user = await User.create({
-      username,
       firstname,
       lastname,
       email,
@@ -37,7 +36,7 @@ router.post("/register", async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign(
-      { id: user._id, username, email, role: user.role },
+      { id: user._id, email, role: user.role },
       process.env.SECRET_KEY,
       { expiresIn: "1d" }
     );
@@ -75,16 +74,7 @@ router.post("/login", async (req, res) => {
         .json({ message: "Email and password are required" });
     }
 
-    const user = await User.findOne({
-      $or: [
-        {
-          email: email,
-        },
-        {
-          username: email,
-        },
-      ],
-    });
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ message: "User not found" });
     }
@@ -117,4 +107,5 @@ router.post("/login", async (req, res) => {
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
 module.exports = router;

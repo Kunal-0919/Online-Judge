@@ -1,4 +1,4 @@
-1. Paging in frontend problemset to optimise queries -> pending
+1. Paging in frontend problemset to optimise queries -> done
 2. Edit profile options. -> pending
 3. Protected routing -> done
 4. Deletion -> done

@@ -71,7 +71,7 @@ function Login() {
             name="email"
             id="email"
             className="font-sans block p-2 border border-gray-300 rounded mb-4 w-full"
-            placeholder="Username or Email"
+            placeholder="Email"
             required={true}
           />
           <input

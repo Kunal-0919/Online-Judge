@@ -8,10 +8,11 @@ import CorporateFareIcon from "@mui/icons-material/CorporateFare";
 const UserInfo = ({ user }) => {
   return (
     <div className="bg-secblack text-lctxt p-6 rounded-lg shadow-md max-w-xs m-5">
-      {user.username && (
+      {user.email && (
         <>
-          <h2 className="text-xl font-bold text-white">{user.firstname}</h2>
-          <h2 className="mb-3">{user.username}</h2>
+          <h2 className="text-xl font-bold text-white my-4">
+            {user.firstname} {user.lastname}
+          </h2>
           {user.bio ? (
             <p className="mb-2">{user.bio}</p>
           ) : (
