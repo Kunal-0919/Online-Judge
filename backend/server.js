@@ -17,7 +17,7 @@ app.use(cookieParser());
 // Configure CORS
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://algochef.netlify.app/",
+  "https://algochef.netlify.app",
 ];
 
 app.use(
