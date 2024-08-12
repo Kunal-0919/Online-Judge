@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode"; // Use the correct import
 import PersonPinIcon from "@mui/icons-material/PersonPin";
+import LogoutIcon from "@mui/icons-material/Logout";
+
 const Navbar = ({ backgroundcolor }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate(); // Correct placement of useNavigate
 
   useEffect(() => {
     const token = Cookies.get("token");
@@ -22,17 +25,44 @@ const Navbar = ({ backgroundcolor }) => {
 
   const isAuthenticated = !!Cookies.get("token");
 
-  const bgColorClass = backgroundcolor === true ? "bg-secblack" : "bg-white";
-  const textColorClass =
-    backgroundcolor === true ? "text-zinc-300" : "text-gray-700";
-  const hoverTextColorClass =
-    backgroundcolor === true ? "hover:text-white" : "hover:text-secblack";
-  const activeTextColorClass =
-    backgroundcolor === true ? "text-white" : "text-secblack";
-  const activeBorderClass =
-    backgroundcolor === true ? "border-white" : "border-secblack";
-  const borderClass =
-    backgroundcolor === true ? "border-gray-800" : "border-gray-600";
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_BASE_URL}/auth/logout`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        const res = await response.json();
+        Cookies.remove("token");
+        navigate("/login");
+        alert("Logout Successful");
+      } else {
+        setServermessage("Logout Unsuccessful");
+        alert("Logout Unsuccessful");
+      }
+    } catch (error) {
+      console.error("Logout Error:", error);
+      alert("An error occurred during logout");
+    }
+  };
+
+  const bgColorClass = backgroundcolor ? "bg-secblack" : "bg-white";
+  const textColorClass = backgroundcolor ? "text-zinc-300" : "text-gray-700";
+  const hoverTextColorClass = backgroundcolor
+    ? "hover:text-white"
+    : "hover:text-secblack";
+  const activeTextColorClass = backgroundcolor ? "text-white" : "text-secblack";
+  const activeBorderClass = backgroundcolor
+    ? "border-white"
+    : "border-secblack";
+  const borderClass = backgroundcolor ? "border-gray-800" : "border-gray-600";
 
   const getLinkClass = (path) => {
     return location.pathname === path
@@ -101,6 +131,13 @@ const Navbar = ({ backgroundcolor }) => {
             <Link to={"/profile"}>
               <PersonPinIcon />
             </Link>
+            <button
+              onClick={handleLogout}
+              className="mx-4 px-6 py-2 rounded-lg font-bold transition duration-200 shadow-sm shadow-black hover:shadow-md hover:shadow-black"
+            >
+              <LogoutIcon />
+              Logout
+            </button>
           </div>
         )}
       </div>

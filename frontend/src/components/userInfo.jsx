@@ -18,7 +18,7 @@ const UserInfo = ({ user }) => {
           ) : (
             <p className="hidden">N/A</p>
           )}
-          <button
+          {/* <button
             className="bg-green-500 bg-opacity-20 h-9 mb-5 w-full text-green-600 rounded transition duration-500 hover:bg-opacity-30"
             onClick={() => {
               // route to the page that will help us edit the user Info, we'll only pass the values like
@@ -26,7 +26,7 @@ const UserInfo = ({ user }) => {
             }}
           >
             Edit Profile
-          </button>
+          </button> */}
           {user.email && (
             <p className="mb-4">
               <span className="mr-2">
