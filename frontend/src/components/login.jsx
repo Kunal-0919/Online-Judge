@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import LogoComponent from "./LogoComponent.jsx";
+import LogoComponent from "./LogoComponent";
 import { Link } from "react-router-dom";
 
 function Login() {

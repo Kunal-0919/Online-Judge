@@ -1,4 +1,4 @@
-import Navbar from "./Navbar.jsx";
+import Navbar from "./Navbar";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import { useNavigate } from "react-router-dom";
 const Dashboard = () => {

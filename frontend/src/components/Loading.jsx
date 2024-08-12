@@ -1,4 +1,4 @@
-// Loading.jsx
+// Loading
 import React from "react";
 import "./Loading.css"; // Import the CSS file
 
