@@ -1,14 +1,14 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./components/Login.jsx";
-import Signup from "./components/Signup.jsx";
-import AddProblemPage from "./components/AddProblem.jsx";
-import Problemset from "./components/Problemset.jsx";
-import Dashboard from "./components/Dashboard.jsx";
-import Userprofile from "./components/UserProfile.jsx";
-import ProblemDetail from "./components/ProblemDetail.jsx";
-import Explore from "./components/Explore.jsx";
-import Contest from "./components/Contest.jsx";
-import ProtectedRoute from "./components/ProctectedRoute.jsx";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
+import AddProblemPage from "./components/AddProblem";
+import Problemset from "./components/Problemset";
+import Dashboard from "./components/Dashboard";
+import Userprofile from "./components/UserProfile";
+import ProblemDetail from "./components/ProblemDetail";
+import Explore from "./components/Explore";
+import Contest from "./components/Contest";
+import ProtectedRoute from "./components/ProctectedRoute";
 
 function App() {
   return (
