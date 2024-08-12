@@ -44,7 +44,6 @@ const Navbar = ({ backgroundcolor }) => {
         navigate("/login");
         alert("Logout Successful");
       } else {
-        setServermessage("Logout Unsuccessful");
         alert("Logout Unsuccessful");
       }
     } catch (error) {
