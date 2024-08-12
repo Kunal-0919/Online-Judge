@@ -23,6 +23,7 @@ int main() {
   const [error, setError] = useState("");
   const [verdict, setVerdict] = useState("");
   const [verdictMessage, setVerdictMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   const { problemNameId } = useParams();
   const problem_id = problemNameId.split("-").pop();
 
@@ -43,8 +44,12 @@ int main() {
     }
   };
   const handleSubmit = async () => {
-    console.log("Hello");
+    if (loading) return;
+
+    setVerdict("");
+    setVerdictMessage("");
     setBottomView("verdict");
+    setLoading(true); // Set loading to true when the submission starts
     const apiurl = `${import.meta.env.VITE_APP_API_BASE_URL}/runcode/submit`;
     const res = await fetch(apiurl, {
       method: "POST",
@@ -59,6 +64,8 @@ int main() {
       }),
     });
 
+    setLoading(false);
+
     if (!res.ok) {
       const data = await res.json();
       setError(data.message || "Login failed");
@@ -69,11 +76,13 @@ int main() {
     const data = await res.json();
     setVerdict(data.verdict);
     setVerdictMessage(data.message);
-    console.log(data);
   };
 
   const handleRun = async () => {
+    if (loading) return;
+    setOutput("");
     setBottomView("output");
+    setLoading(true);
     const apiurl = `${import.meta.env.VITE_APP_API_BASE_URL}/runcode/run`;
     const res = await fetch(apiurl, {
       method: "POST",
@@ -88,9 +97,12 @@ int main() {
       }),
     });
 
+    setLoading(false); // Set loading to false when the run ends
+
     if (!res.ok) {
       const data = await res.json();
       setError(data.message || "Login failed");
+      alert(data.message);
       return;
     }
 
@@ -114,7 +126,6 @@ int main() {
     else if (verdict === "Wrong Answer") return "text-red-400";
     else return "text-yellow-500";
   };
-
   return (
     <>
       <div className="flex flex-1 bg-priblack items-center justify-between p-3">
@@ -124,6 +135,7 @@ int main() {
         <div className="flex space-x-2">
           <button
             onClick={handleRun}
+            disabled={loading}
             className="text-lctxt bg-secblack px-5 py-2 rounded-l-2xl transition duration-500 hover:shadow-sm hover:shadow-zinc-600 hover:bg-zinc-600"
           >
             <PlayArrowIcon />
@@ -131,7 +143,10 @@ int main() {
           </button>
           <button
             onClick={handleSubmit}
-            className="text-green-500 bg-secblack px-5 py-2 rounded-r-2xl transition duration-500 hover:shadow-sm hover:shadow-zinc-600 hover:bg-zinc-600"
+            disabled={loading}
+            className={`text-green-500 bg-secblack px-5 py-2 rounded-r-2xl transition duration-500 hover:shadow-sm hover:shadow-zinc-600 hover:bg-zinc-600 ${
+              loading ? "opacity-50 cursor-not-allowed" : ""
+            }`}
           >
             <ArrowUpwardIcon />
             Submit
