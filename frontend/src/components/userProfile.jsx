@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import Loading from "./Loading"; // Import the Loading component
-import UserInfo from "./userInfo";
+import UserInfo from "./UserInfo";
 import Statscard from "./StatsCard"; // Import the Statscard component
 
 const Userprofile = () => {

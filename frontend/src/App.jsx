@@ -1,10 +1,10 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./components/login";
+import Login from "./components/Login";
 import Signup from "./components/Signup";
-import AddProblemPage from "./components/addProblem";
-import Problemset from "./components/problemset";
+import AddProblemPage from "./components/AddProblem";
+import Problemset from "./components/Problemset";
 import Dashboard from "./components/Dashboard";
-import Userprofile from "./components/userProfile";
+import Userprofile from "./components/UserProfile";
 import ProblemDetail from "./components/ProblemDetail";
 import Explore from "./components/Explore";
 import Contest from "./components/Contest";
