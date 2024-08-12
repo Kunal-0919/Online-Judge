@@ -8,13 +8,13 @@ import LogoutIcon from "@mui/icons-material/Logout";
 const Navbar = ({ backgroundcolor }) => {
   const [isAdmin, setIsAdmin] = useState(false);
   const location = useLocation();
-  const navigate = useNavigate(); // Correct placement of useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = Cookies.get("token");
     if (token) {
       try {
-        const decodedToken = jwtDecode(token); // Decode the token
+        const decodedToken = jwtDecode(token);
         const adminStatus = decodedToken.role === "admin";
         setIsAdmin(adminStatus);
       } catch (error) {
