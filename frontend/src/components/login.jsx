@@ -91,12 +91,12 @@ function Login() {
               Login
             </button>
 
-            <button
+            {/* <button
               // onClick={}
               className="font-sans font-bold w-full border-2 p-2 border-black text-black rounded-lg transition duration-200 hover:rounded-full ease-out m-3 hover:shadow-lg hover:shadow-black"
             >
               Forgot Password
-            </button>
+            </button> */}
           </div>
           <div className="flex justify-center mt-4">
             <Link to="/signup" className="text-center underline text-blue-600">
