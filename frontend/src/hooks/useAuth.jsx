@@ -6,6 +6,7 @@ const useAuth = () => {
 
   useEffect(() => {
     const token = Cookies.get("token");
+    console.log(token);
     setIsAuthenticated(!!token);
   }, []);
 

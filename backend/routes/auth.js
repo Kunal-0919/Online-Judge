@@ -38,7 +38,7 @@ router.post("/register", async (req, res) => {
     const token = jwt.sign(
       { id: user._id, email, role: user.role },
       process.env.SECRET_KEY,
-      { expiresIn: "1d" }
+      { expiresIn: "30d" }
     );
 
     // Set cookie with token
@@ -87,7 +87,7 @@ router.post("/login", async (req, res) => {
     const token = jwt.sign(
       { id: user._id, email, role: user.role },
       process.env.SECRET_KEY,
-      { expiresIn: "1d" }
+      { expiresIn: "30d" }
     );
 
     res.cookie("token", token, {
