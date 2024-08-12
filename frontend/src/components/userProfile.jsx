@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "./Navbar";
-import Loading from "./Loading"; // Import the Loading component
-import UserInfo from "./UserInfo";
-import Statscard from "./StatsCard"; // Import the Statscard component
+import Navbar from "./Navbar.jsx";
+import Loading from "./Loading.jsx"; // Import the Loading component
+import UserInfo from "./UserInfo.jsx";
+import Statscard from "./StatsCard.jsx"; // Import the Statscard component
 
 const Userprofile = () => {
   const [user, setUser] = useState({});

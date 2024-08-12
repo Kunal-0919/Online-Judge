@@ -1,4 +1,4 @@
-import Navbar from "./Navbar";
+import Navbar from "./Navbar.jsx";
 function Explore() {
   return (
     <>

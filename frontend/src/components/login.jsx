@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
-import Navbar from "./Navbar";
-import LogoComponent from "./LogoComponent";
+import LogoComponent from "./LogoComponent.jsx";
 import { Link } from "react-router-dom";
 
 function Login() {
