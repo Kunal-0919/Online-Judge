@@ -17,7 +17,7 @@ app.use(cookieParser());
 // Configure CORS
 app.use(
   cors({
-    origin: "https://algochef.netlify.app/",
+    origin: "https://algochef.netlify.app",
     credentials: true,
   })
 );
