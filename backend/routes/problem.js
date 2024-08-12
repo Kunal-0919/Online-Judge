@@ -94,7 +94,7 @@ router.post("/addproblem", authenticateToken, async (req, res) => {
 router.get("/problems", async (req, res) => {
   try {
     // Find problems with pagination
-    const problems = await Problem.find({});
+    const problems = await Problem.find({}).select("-hidden_cases");
 
     // If no problems are found
     if (!problems) {

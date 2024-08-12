@@ -3,7 +3,6 @@ import Login from "./components/login";
 import Signup from "./components/Signup";
 import AddProblemPage from "./components/addProblem";
 import Problemset from "./components/problemset";
-import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import Userprofile from "./components/userProfile";
 import ProblemDetail from "./components/ProblemDetail";
