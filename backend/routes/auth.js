@@ -44,8 +44,8 @@ router.post("/register", async (req, res) => {
     // Set cookie with token
     res.cookie("token", token, {
       httpOnly: false,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      secure: true,
+      sameSite: "none",
       path: "/",
     });
 
@@ -92,8 +92,8 @@ router.post("/login", async (req, res) => {
 
     res.cookie("token", token, {
       httpOnly: false,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "Strict",
+      secure: true,
+      sameSite: "none",
       path: "/",
     });
 
